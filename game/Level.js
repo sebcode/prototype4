@@ -191,7 +191,7 @@ P4.Level.prototype.processStep = function()
 			if (typeof this.sequence[this.stepindex] == 'string') {
 				if (P4.Enemy.count <= 0) {
 					this.levelText = this.sequence[this.stepindex]
-					P4.track(this.levelText.txt)
+					P4.track(this.levelText)
 					this.drawLevelText = true
 					this.lastLevelIndex = this.stepindex
 					this.forcewait = 20
