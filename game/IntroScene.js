@@ -46,6 +46,8 @@ P4.IntroScene.prototype.activate = function()
 		this.blinkTimer.pause = false
 		return false
 	}, this))
+	
+	GO.Sound.play('intro')
 }
 
 P4.IntroScene.prototype.process = function()

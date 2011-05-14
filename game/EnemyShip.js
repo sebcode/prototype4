@@ -198,6 +198,7 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 	s.dead = true
 
 	if (this.life <= 0) {
+		GO.Sound.play('explode1')
 		this.explode(s.x, s.y, 300)
 		this.dust = false
 		this.lethal = false

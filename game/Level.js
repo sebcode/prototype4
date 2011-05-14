@@ -33,6 +33,7 @@ P4.Level.prototype.pattern.powerupW = function()
 
 P4.Level.prototype.pattern.star = function()
 {
+	GO.Sound.play('enemystar')
 	var a = new P4.EnemyStar()
 	a.x = Math.random() * GO.Screen.width
 	a.y = -10

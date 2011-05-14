@@ -32,6 +32,8 @@ P4.GameScene.prototype.activate = function()
 
 	this.warmup = true
 
+	GO.Sound.play('getready')
+
 	if (GO.debug) {
 		this.warmup = false
 	}
