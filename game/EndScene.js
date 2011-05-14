@@ -33,6 +33,8 @@ P4.EndScene.prototype.label2 = 'try again'
 P4.EndScene.prototype.activate = function()
 {
 	this.locked = true
+
+	GO.Sound.play('game_over')
 	
 	/* allow click after time period */
 	this.layers.handlers.push(new GO.Timer(1500, function() {

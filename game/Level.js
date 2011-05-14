@@ -191,6 +191,8 @@ P4.Level.prototype.processStep = function()
 		} else if (!this.step) {
 			if (typeof this.sequence[this.stepindex] == 'string') {
 				if (P4.Enemy.count <= 0) {
+					GO.Sound.play('level_start')
+
 					this.levelText = this.sequence[this.stepindex]
 					P4.track(this.levelText)
 					this.drawLevelText = true

@@ -92,6 +92,8 @@ P4.Player.prototype.oncollision = function(e)
 	}
 
 	if (this.energy <= 0) {
+		GO.Sound.play('player_explode')
+
 		this.explode(true)
 		this.heaven = true
 		this.x = -5000
@@ -108,6 +110,8 @@ P4.Player.prototype.oncollision = function(e)
 			return false
 		}, this))
 	} else {
+		GO.Sound.play('player_hit')
+
 		var damage = e.damage ? e.damage : 1
 		this.energy -= damage
 		if (this.energy < 0) {
@@ -129,6 +133,10 @@ P4.Player.prototype.process = function()
 	}
 
 	if (this.spawn > 0) {
+		if (this.spawn == 500) {
+			GO.Sound.play('hit')
+		}
+
 		GO.ctx.beginPath()
 		GO.ctx.lineWidth = 3
 		GO.ctx.fillStyle = 'rgba(255,255,255,0.1)'

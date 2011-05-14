@@ -23,6 +23,12 @@ P4.Powerup.prototype.type = 'w'
 P4.Powerup.prototype.consume = function()
 {
 	if (this.active && this.touching) {
+		if (this.type == 'w') {
+			GO.Sound.play('powerup_canon')
+		} else {
+			GO.Sound.play('powerup_life')
+		}
+		
 		this.active = false
 		this.dead = true
 		return true

@@ -211,6 +211,7 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 			GO.scenes.game.layers.fg.push(p)
 		}
 	} else {
+		GO.Sound.play('hit')
 		this.explode(s.x, s.y, 10)
 	}
 }

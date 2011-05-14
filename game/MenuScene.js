@@ -31,6 +31,13 @@ P4.MenuScene = function()
 
 GO.Util.extend(P4.MenuScene, GO.Scene)
 
+P4.MenuScene.prototype.activate = function()
+{
+	this.lastSel = false
+
+	GO.Sound.play('menu_open')
+}
+
 P4.MenuScene.prototype.process = function()
 {
 	this.clear()
@@ -40,6 +47,7 @@ P4.MenuScene.prototype.process = function()
 	}
 
 	if (GO.Event.Keyboard.code == 27) {
+		GO.Sound.play('menu_close')
 		GO.setScene(GO.scenes.game)
 		return
 	}
@@ -75,6 +83,11 @@ P4.MenuScene.prototype.process = function()
 		&& GO.Event.Mouse.x < this.x + this.w) {
 
 		this.sel = Math.floor((GO.Event.Mouse.y - this.y) / (this.txth + 20)) + 1
+		
+		if (this.sel != this.lastSel) {
+			GO.Sound.play('select')
+			this.lastSel = this.sel
+		}
 	}
 
 	if (GO.Event.Mouse.click && this.sel && this.items[this.sel - 1] && this.items[this.sel - 1].func) {
