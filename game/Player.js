@@ -26,7 +26,8 @@ P4.Player.prototype.cr = 8
 P4.Player.prototype.size = 1
 P4.Player.prototype.lives = 3
 P4.Player.prototype.weapon = 0
-P4.Player.prototype.energy = 10
+P4.Player.prototype.energy = 50
+P4.Player.prototype.score = 0
 
 P4.Player.prototype.reset = function()
 {
@@ -60,13 +61,15 @@ P4.Player.prototype.oncollision = function(e)
 			case 'w':
 				this.weapon = 1
 				this.weaponCooldown = 10
+				this.score += 100
 				break
 
 			case 'e':
-				this.energy += 1
-				if (this.energy >= 10) {
-					this.energy = 10
+				this.energy += 10
+				if (this.energy >= P4.Player.prototype.energy) {
+					this.energy = P4.Player.prototype.energy
 				}
+				this.score += 200
 				break
 		}
 

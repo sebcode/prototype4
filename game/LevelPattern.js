@@ -17,7 +17,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 5, p: 'singlerandom' }
 	,{ w: 50, p: 'linepurple' }
 	,{ w: 50, p: 'lineblueslow', powerup: 1 }
-
+	
 	,'Level 2'
 	,{ w: 50, p: 'n4' }
 	,{ w: 50, p: 'n5' }
@@ -183,6 +183,35 @@ P4.Level.prototype.sequence = [
 	,{ w: 0, p: 'star' }
 	
 	,'Level 10'
+	,{ w: 0, p: 'rush3' }
+	,{ w: 20, p: 'rush2' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 20, p: 'rush3' }
+	,{ w: 20, p: 'rush2' }
+	,{ w: 20, p: 'rush3' }
+	,{ w: 20, p: 'rush2' }
+	
+	,'Level 11'
+	,{ w: 20, p: 'minis' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 20, p: 'minis' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 20, p: 'minis' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 20, p: 'minis' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 10, p: 'minis' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'minis' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 10, p: 'minis' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 0, p: 'minis' }
+	,{ w: 0, p: 'powerupE' }
+
+	,'Level 12'
 	,{ w: 10, p: 'star' }
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }

@@ -1,6 +1,6 @@
 
 GO.config.fontName = 'atari'
-GO.config.showFPS = true
+GO.config.showFPS = false
 
 P4.track = function(t)
 {
@@ -13,6 +13,7 @@ GO.init = function()
 	if (this.debug) {
 		//this.godMode = true
 		//this.wireFrame = true
+		this.config.showFPS = true
 	}
 
 	GO.handlers.push({

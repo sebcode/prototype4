@@ -6,10 +6,12 @@ P4.EnemyShipBlue = function()
 	
 	P4.EnemyShipBlue.superproto.constructor.call(this, c, ec)
 
-	this.v = 0.1
+	this.v = 0.3
 }
 
 GO.Util.extend(P4.EnemyShipBlue, P4.EnemyShip)
+
+/************************************************************************/
 
 P4.EnemyShipPurple = function()
 {
@@ -23,6 +25,8 @@ P4.EnemyShipPurple = function()
 
 GO.Util.extend(P4.EnemyShipPurple, P4.EnemyShip)
 
+/************************************************************************/
+
 P4.EnemyShipYellow = function()
 {
 	var c = { r: 204, g: 255, b: 0 }
@@ -33,6 +37,8 @@ P4.EnemyShipYellow = function()
 
 GO.Util.extend(P4.EnemyShipYellow, P4.EnemyShip)
 
+/************************************************************************/
+
 P4.EnemyShipOrange = function()
 {
 	var c = { r: 231, g: 53, b: 37 }
@@ -42,4 +48,16 @@ P4.EnemyShipOrange = function()
 }
 
 GO.Util.extend(P4.EnemyShipOrange, P4.EnemyShip)
+
+/************************************************************************/
+
+P4.EnemyShipLime = function()
+{
+	var c = { r: 120, g: 231, b: 84 }
+		,ec = { r: 120, g: -1, b: 84 }
+	
+	P4.EnemyShipLime.superproto.constructor.call(this, c, ec)
+}
+
+GO.Util.extend(P4.EnemyShipLime, P4.EnemyShip)
 

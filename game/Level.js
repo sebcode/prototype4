@@ -20,7 +20,7 @@ P4.Level.prototype.stepindex = 0
 P4.Level.prototype.wait = 0
 P4.Level.prototype.forcewait = 0
 P4.Level.prototype.lastLevelIndex = 0
-//P4.Level.prototype.startWith = 'Level 10'
+P4.Level.prototype.startWith = 'Level 1'
 
 P4.Level.prototype.pattern.powerupW = function()
 {
@@ -31,6 +31,15 @@ P4.Level.prototype.pattern.powerupW = function()
 	GO.scenes.game.layers.fg.push(p)
 }
 
+P4.Level.prototype.pattern.powerupE = function()
+{
+	var p = new P4.Powerup
+	p.x = Math.random() * GO.Screen.width
+	p.y = 0
+	p.type = 'e'
+	GO.scenes.game.layers.fg.push(p)
+}
+
 P4.Level.prototype.pattern.star = function()
 {
 	GO.Sound.play('enemystar')
@@ -38,6 +47,20 @@ P4.Level.prototype.pattern.star = function()
 	a.x = Math.random() * GO.Screen.width
 	a.y = -10
 	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.minis = function()
+{
+	for (var i = 0; i < 20; i += 1) {
+		var c = { r: -1, g: -1, b: -1 }
+			,ec = { r: -1, g: -1, b: -1 }
+			,a = new P4.EnemyShip(c, ec)
+
+		a.x = 100 + (GO.Screen.width - 200) * Math.random()
+		a.v = 1 + (Math.random() * 2)
+		a.size = 0.2
+		this.scene.layers.fg.push(a)
+	}
 }
 
 P4.Level.prototype.pattern.singlerandom = function()
@@ -149,6 +172,39 @@ P4.Level.prototype.pattern.n5 = function()
 	}
 }
 
+P4.Level.prototype.pattern.rush1 = function()
+{
+	for (var i = 0; i < 5; i += 1) {
+		var a = new P4.EnemyShipBlue()
+		a.x = 100 + (GO.Screen.width - 200) * Math.random()
+		a.life = 5
+		a.v = 0.5 + (Math.random() * 2)
+		this.scene.layers.fg.push(a)
+	}
+}
+
+P4.Level.prototype.pattern.rush2 = function()
+{
+	for (var i = 0; i < 8; i += 1) {
+		var a = new P4.EnemyShipOrange()
+		a.x = 100 + (GO.Screen.width - 200) * Math.random()
+		a.life = 5
+		a.v = 0.5 + (Math.random() * 2)
+		this.scene.layers.fg.push(a)
+	}
+}
+
+P4.Level.prototype.pattern.rush3 = function()
+{
+	for (var i = 0; i < 8; i += 1) {
+		var a = new P4.EnemyShipLime()
+		a.x = 100 + (GO.Screen.width - 200) * Math.random()
+		a.life = 5
+		a.v = 0.5 + (Math.random() * 2)
+		this.scene.layers.fg.push(a)
+	}
+}
+
 P4.Level.prototype.process = function()
 {
 	if (this.levelText && this.drawLevelText) {
@@ -192,6 +248,9 @@ P4.Level.prototype.processStep = function()
 			if (typeof this.sequence[this.stepindex] == 'string') {
 				if (P4.Enemy.count <= 0) {
 					GO.Sound.play('level_start')
+				
+					//var rgb = GO.Util.createColorRGB({r: -1, g: -1, b: -1})
+					//this.scene.setOverlayColor(rgb.r + ',' + rgb.g + ',' + rgb.b)
 
 					this.levelText = this.sequence[this.stepindex]
 					P4.track(this.levelText)
@@ -200,6 +259,9 @@ P4.Level.prototype.processStep = function()
 					this.forcewait = 20
 					this.stepindex += 1
 				}
+			} else if (this.sequence[this.stepindex].bgcolor) {
+				this.scene.setOverlayColor(this.sequence[this.stepindex].bgcolor)
+				this.stepindex += 1
 			} else {
 				this.drawLevelText = false
 				this.step = this.sequence[this.stepindex]

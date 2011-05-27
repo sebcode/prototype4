@@ -28,7 +28,7 @@ P4.EnemyStar.prototype.explode = function(x, y, v)
 	p.colorscheme = { r: -1, g: 1, b: 0 }
 	p.x = x
 	p.y = y
-	p.lifetime = 1 / 5
+	p.lifetime = 1 / 10
 	p.v = v
 	p.vr = 100
 	p.explode(2)

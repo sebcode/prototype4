@@ -22,6 +22,10 @@ P4.GameScene = function()
 	this.layers.fg.push(this.player)
 
 	this.level = new P4.Level(this)
+
+	this.overlayAlpha = 0
+	this.overlayColor = false
+	this.overlayFadeout = false
 }
 
 GO.Util.extend(P4.GameScene, GO.Scene)
@@ -106,28 +110,79 @@ P4.GameScene.prototype.process = function()
 		GO.ctx.fillRect(0, 0, GO.Screen.width, GO.Screen.height)
 		this.player.hit = false
 	}
+	
+	this.drawOverlay()
+}
+
+P4.GameScene.prototype.setOverlayColor = function(rgb)
+{
+	if (!this.overlayColor) {
+		this.overlayColor = rgb
+		this.overlayAlpha = 0
+		return
+	}
+
+	this.overlayNextColor = rgb
+}
+
+P4.GameScene.prototype.drawOverlay = function()
+{
+	if (this.overlayFadeout) {
+		this.overlayAlpha -= 0.1 * GO.delta
+		if (this.overlayAlpha <= -0.1) {
+			this.overlayColor = this.overlayNextColor
+			this.overlayNextColor = false
+			this.overlayFadeout = false
+		}
+	} else {
+		this.overlayAlpha += 0.1 * GO.delta
+		if (this.overlayAlpha >= 0.15) {
+			this.overlayAlpha = 0.15
+
+			if (this.overlayNextColor) {
+				this.overlayFadeout = true
+			}
+		}
+	}
+
+	if (this.overlayColor) {
+		GO.ctx.globalCompositeOperation = 'lighter'
+		GO.ctx.fillStyle = 'rgba(' + this.overlayColor + ', ' + this.overlayAlpha + ')'
+		GO.ctx.fillRect(0, 0, GO.Screen.width, GO.Screen.height)
+		GO.ctx.globalCompositeOperation = 'source-over'
+	}
 }
 
 P4.GameScene.prototype.drawHUD = function()
 {
+	GO.ctx.font = '8px ' + GO.config.fontName
 	GO.ctx.textBaseline = 'alphabetic'
 	
-	GO.ctx.textAlign = 'right'
-	GO.ctx.font = '8px ' + GO.config.fontName
-	GO.ctx.fillStyle = 'white'
-	GO.ctx.fillText('Player x ' + this.player.lives, GO.Screen.width - 10, GO.Screen.height - 10)
-
-	GO.ctx.textAlign = 'left'
-	GO.ctx.fillText('Energy:', 100, GO.Screen.height - 10)
-
+	/* level text */
 	if (this.level.levelText) {
+		GO.ctx.fillStyle = 'white'
+		GO.ctx.textAlign = 'left'
 		GO.ctx.fillText(this.level.levelText, 10, GO.Screen.height - 10)
 	}
 
+	/* energy */
+	GO.ctx.textAlign = 'left'
+	GO.ctx.fillText('Energy:', 100, GO.Screen.height - 10)
+	
 	GO.ctx.fillStyle = (this.player.energy <= 3 ? 'red' : 'white')
 	GO.ctx.strokeStyle = GO.ctx.fillStyle
 	GO.ctx.lineWidth = 1
 	GO.ctx.strokeRect(165, GO.Screen.height - 16, 1 + 100, 5)
-	GO.ctx.fillRect(165, GO.Screen.height - 16, 1 + (10 * this.player.energy), 5)
+	GO.ctx.fillRect(165, GO.Screen.height - 16, 1 + (this.player.energy * 2), 5)
+
+	/* score */
+	GO.ctx.fillStyle = 'white'
+	GO.ctx.textAlign = 'left'
+	GO.ctx.fillText('Score: ' + this.player.score, GO.Screen.width - 280, GO.Screen.height - 10)
+
+	/* player lives */
+	GO.ctx.textAlign = 'right'
+	GO.ctx.fillStyle = 'white'
+	GO.ctx.fillText('Player x ' + this.player.lives, GO.Screen.width - 10, GO.Screen.height - 10)
 }
 

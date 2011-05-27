@@ -213,6 +213,7 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 	} else {
 		GO.Sound.play('hit')
 		this.explode(s.x, s.y, 10)
+		GO.scenes.game.player.score += 100 + Math.floor(this.v * 100)
 	}
 }
 
