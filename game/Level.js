@@ -1,7 +1,11 @@
 
-P4.Level = function(scene)
+P4.Level = function(scene, startWith)
 {
 	this.scene = scene
+
+	if (startWith) {
+		this.startWith = startWith
+	}
 
 	if (this.startWith) {
 		for (var i = 0; i <= this.sequence.length; i += 1) {
@@ -248,12 +252,18 @@ P4.Level.prototype.processStep = function()
 			if (typeof this.sequence[this.stepindex] == 'string') {
 				if (P4.Enemy.count <= 0) {
 					GO.Sound.play('level_start')
-				
+
 					//var rgb = GO.Util.createColorRGB({r: -1, g: -1, b: -1})
 					//this.scene.setOverlayColor(rgb.r + ',' + rgb.g + ',' + rgb.b)
 
 					this.levelText = this.sequence[this.stepindex]
+					
+					if (ext && ext.save) {
+						ext.save('Level', this.levelText)
+					}
+				
 					P4.track(this.levelText)
+
 					this.drawLevelText = true
 					this.lastLevelIndex = this.stepindex
 					this.forcewait = 20

@@ -1,5 +1,5 @@
 
-P4.GameScene = function()
+P4.GameScene = function(startLevel)
 {
 	P4.GameScene.superproto.constructor.call(this)
 
@@ -21,7 +21,7 @@ P4.GameScene = function()
 	}
 	this.layers.fg.push(this.player)
 
-	this.level = new P4.Level(this)
+	this.level = new P4.Level(this, startLevel)
 
 	this.overlayAlpha = 0
 	this.overlayColor = false

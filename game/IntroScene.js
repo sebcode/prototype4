@@ -40,6 +40,18 @@ P4.IntroScene.prototype.activate = function()
 	}, this))
 	
 	GO.Sound.play('intro')
+	
+	this.items = []
+
+	var cont = ext.getContinue()
+	if (cont && cont != 'Level 1') {
+		this.items.push('continue')
+	}
+
+	this.items.push('new game')
+	this.items.push('high scores')
+	this.items.push('credits')
+	this.items.push('quit')
 }
 
 P4.IntroScene.prototype.process = function()
@@ -90,10 +102,9 @@ P4.IntroScene.prototype.drawMenu = function()
 	var x = GO.Screen.width / 2
 		,y = GO.Screen.height / 2 + 100
 	
-	this.drawMenuItem(0, 'play')
-	this.drawMenuItem(1, 'high scores')
-	this.drawMenuItem(2, 'credits')
-	this.drawMenuItem(3, 'quit')
+	for (var i = 0; i < this.items.length; i += 1) {
+		this.drawMenuItem(i, this.items[i]);
+	}
 }
 
 P4.IntroScene.prototype.drawMenuItem = function(i, txt, onclick)
@@ -118,14 +129,24 @@ P4.IntroScene.prototype.drawMenuItem = function(i, txt, onclick)
 	GO.ctx.fillText(sel ? '[ ' + txt + ' ]' : txt, x, y)
 	
 	if (sel && GO.Event.Mouse.click) {
+		GO.Sound.play('menu_click')
 		this.handleMenuItemClick(txt)
+	}
+	
+	if (sel && this.lastMenuItem != txt) {
+		GO.Sound.play('select')
+		this.lastMenuItem = txt
 	}
 }
 
 P4.IntroScene.prototype.handleMenuItemClick = function(item)
 {
 	switch (item) {
-		case 'play':
+		case 'continue':
+			this.beginGame(ext.getContinue())
+			break
+
+		case 'new game':
 			this.beginGame()
 			break
 
@@ -139,20 +160,20 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 
 P4.IntroScene.prototype.drawCredit = function()
 {
-	GO.ctx.font = '6px ' + GO.config.fontName
+	GO.ctx.font = '8px ' + GO.config.fontName
 	GO.ctx.fillStyle = '#666'
 	GO.ctx.textBaseline = 'bottom'
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillText('A Game By Sebastian Volland', GO.Screen.width - 5, GO.Screen.height - 5)
 }
 
-P4.IntroScene.prototype.beginGame = function()
+P4.IntroScene.prototype.beginGame = function(startLevel)
 {
 	t = new GO.Transition
 	t.v = 2
 	t.ondone = {
 		fn: function() {
-			GO.scenes.game = new P4.GameScene
+			GO.scenes.game = new P4.GameScene(startLevel)
 			GO.setScene(GO.scenes.game)
 		}, ctx: this
 	}

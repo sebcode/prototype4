@@ -21,7 +21,7 @@ P4.MenuScene = function()
 			}
 		},
 		{
-			label: 'quit',
+			label: 'quit to menu',
 			func: function() {
 				GO.setScene(GO.scenes.intro)
 			}
@@ -91,6 +91,7 @@ P4.MenuScene.prototype.process = function()
 	}
 
 	if (GO.Event.Mouse.click && this.sel && this.items[this.sel - 1] && this.items[this.sel - 1].func) {
+		GO.Sound.play('menu_click')
 		this.items[this.sel - 1].func.call()
 	}
 }
