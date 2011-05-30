@@ -115,7 +115,7 @@ GO.loop = function()
 
 GO.showFPS = function()
 {
-	if (!this.config.showFPS) {
+	if (!this.config.showFPS && !(ext && ext.showFPS)) {
 		return
 	}
 
