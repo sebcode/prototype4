@@ -1,13 +1,11 @@
 
-P4.EndScene = function(label1, label2)
+P4.EndScene = function(label1, score)
 {
 	if (label1) {
 		this.label1 = label1
 	}
 
-	if (label2) {
-		this.label2 = label2
-	}
+	this.score = score
 
 	P4.EndScene.superproto.constructor.call(this)
 
@@ -17,18 +15,11 @@ P4.EndScene = function(label1, label2)
 	this.layers.transition = new GO.Layer
 
 	P4.Starfield.create(this.layers.starfield)
-
-	this.blinkTimer = new GO.Timer(500, function() {
-		this.blink = ! this.blink
-	}, this)
-	this.blinkTimer.pause = true
-	this.layers.handlers.push(this.blinkTimer)
 }
 
 GO.Util.extend(P4.EndScene, GO.Scene)
 
 P4.EndScene.prototype.label1 = 'Game Over'
-P4.EndScene.prototype.label2 = 'try again'
 
 P4.EndScene.prototype.activate = function()
 {
@@ -39,8 +30,6 @@ P4.EndScene.prototype.activate = function()
 	/* allow click after time period */
 	this.layers.handlers.push(new GO.Timer(1500, function() {
 		this.locked = false
-		this.blinkTimer.reset()
-		this.blinkTimer.pause = false
 		return false
 	}, this))
 }
@@ -78,7 +67,7 @@ P4.EndScene.prototype.drawSubTitle = function()
 	GO.ctx.fillStyle = '#fff'
 	GO.ctx.textBaseline = 'middle'
 	GO.ctx.textAlign = 'center'
-	GO.ctx.fillText(this.label2, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
+	GO.ctx.fillText('Your score: ' + this.score, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
 }
 
 P4.EndScene.prototype.handleEvent = function()

@@ -24,7 +24,7 @@ P4.Level.prototype.stepindex = 0
 P4.Level.prototype.wait = 0
 P4.Level.prototype.forcewait = 0
 P4.Level.prototype.lastLevelIndex = 0
-P4.Level.prototype.startWith = 'Level 1'
+//P4.Level.prototype.startWith = 'dummy2'
 
 P4.Level.prototype.pattern.powerupW = function()
 {
@@ -209,6 +209,12 @@ P4.Level.prototype.pattern.rush3 = function()
 	}
 }
 
+P4.Level.prototype.pattern.boss = function()
+{
+	var a = new P4.EnemyBoss()
+	this.scene.layers.fg.push(a)
+}
+
 P4.Level.prototype.process = function()
 {
 	if (this.levelText && this.drawLevelText) {
@@ -234,10 +240,12 @@ P4.Level.prototype.processStep = function()
 		return
 	}
 
-	if (this.stepindex > this.sequence.length - 1
-		&& P4.Enemy.count <= 0) {
+	if (this.stepindex > this.sequence.length - 1) {
+		if (P4.Enemy.count > 0) {
+			return
+		}
 
-		GO.scenes.end = new P4.EndScene('Well Done', 'you finished the game')
+		GO.scenes.end = new P4.EndScene('Well Done', this.scene.player.score)
 		GO.setScene(GO.scenes.end)
 		P4.track('finished')
 		return
@@ -268,16 +276,19 @@ P4.Level.prototype.processStep = function()
 					this.lastLevelIndex = this.stepindex
 					this.forcewait = 20
 					this.stepindex += 1
+					return
 				}
 			} else if (this.sequence[this.stepindex].bgcolor) {
 				this.scene.setOverlayColor(this.sequence[this.stepindex].bgcolor)
 				this.stepindex += 1
+				return
 			} else {
 				this.drawLevelText = false
 				this.step = this.sequence[this.stepindex]
 				if (!this.step) {
 					this.step = false
 					this.stepindex += 1
+					return
 				} else {
 					this.wait = this.step.w
 				}

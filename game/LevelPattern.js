@@ -211,6 +211,9 @@ P4.Level.prototype.sequence = [
 	,{ w: 0, p: 'minis' }
 	,{ w: 0, p: 'powerupE' }
 
+	,'dummy'
+	,{ w: 0, p: 'boss' }
+
 	,'Level 12'
 	,{ w: 10, p: 'star' }
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }
@@ -280,5 +283,8 @@ P4.Level.prototype.sequence = [
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }	,{ w: 0, p: 'star' }
+	
+	,'dummy2'
+	,{ w: 20, p: 'singlerandom' }
 ]
 

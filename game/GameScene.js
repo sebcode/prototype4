@@ -53,7 +53,7 @@ P4.GameScene.prototype.activate = function()
 P4.GameScene.prototype.onPlayerDied = function()
 {
 	if (this.player.lives <= 0) {
-		GO.scenes.end = new P4.EndScene
+		GO.scenes.end = new P4.EndScene('Game Over', this.player.score)
 		GO.setScene(GO.scenes.end)
 		P4.track('gameover')
 		return false
@@ -76,6 +76,23 @@ P4.GameScene.prototype.process = function()
 		,scheme
 
 	this.clear()
+
+	/* BG GRADIENT **************************/
+//	//GO.ctx.globalCompositeOperation = 'source-over'
+//	if (!this.gc) {
+//		this.gc = 0
+//	}
+//	this.gc += GO.delta * 3
+//	if (this.gc > GO.Screen.width + 500) {
+//		this.gc = -500
+//	}
+//	var grd = GO.ctx.createRadialGradient(this.gc, 0, 0, this.gc, 300, 500);
+//	grd.addColorStop(0, "#333");
+//	grd.addColorStop(1, "#000");
+//	GO.ctx.fillStyle = grd;
+//	GO.ctx.fillRect(0, 0, GO.Screen.width, GO.Screen.height)
+//	//GO.ctx.globalCompositeOperation = 'lighter'
+	/* BG GRADIENT **************************/
 
 	if (this.warmup) {
 		GO.ctx.font = '12px ' + GO.config.fontName
@@ -184,5 +201,13 @@ P4.GameScene.prototype.drawHUD = function()
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillStyle = 'white'
 	GO.ctx.fillText('Player x ' + this.player.lives, GO.Screen.width - 10, GO.Screen.height - 10)
+
+	if (!GO.debug) {
+		return
+	}
+	
+//	GO.ctx.textAlign = 'right'
+//	GO.ctx.fillStyle = 'white'
+//	GO.ctx.fillText('Entities: ' + GO.entityCount, GO.Screen.width - 10, GO.Screen.height - 30)
 }
 
