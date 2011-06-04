@@ -133,6 +133,10 @@ P4.GameScene.prototype.process = function()
 
 P4.GameScene.prototype.setOverlayColor = function(rgb)
 {
+	if (!rgb) {
+		rgb = '0,0,0'
+	}
+
 	if (!this.overlayColor) {
 		this.overlayColor = rgb
 		this.overlayAlpha = 0
@@ -189,8 +193,8 @@ P4.GameScene.prototype.drawHUD = function()
 	GO.ctx.fillStyle = (this.player.energy <= 3 ? 'red' : 'white')
 	GO.ctx.strokeStyle = GO.ctx.fillStyle
 	GO.ctx.lineWidth = 1
-	GO.ctx.strokeRect(165, GO.Screen.height - 16, 1 + 100, 5)
-	GO.ctx.fillRect(165, GO.Screen.height - 16, 1 + (this.player.energy * 2), 5)
+	GO.ctx.strokeRect(165, GO.Screen.height - 16, P4.Player.prototype.energy * 3, 5)
+	GO.ctx.fillRect(165, GO.Screen.height - 16, this.player.energy * 3, 5)
 
 	/* score */
 	GO.ctx.fillStyle = 'white'
@@ -209,5 +213,13 @@ P4.GameScene.prototype.drawHUD = function()
 //	GO.ctx.textAlign = 'right'
 //	GO.ctx.fillStyle = 'white'
 //	GO.ctx.fillText('Entities: ' + GO.entityCount, GO.Screen.width - 10, GO.Screen.height - 30)
+	
+	GO.ctx.textAlign = 'right'
+	GO.ctx.fillStyle = 'white'
+	GO.ctx.fillText('Enemycount: ' + P4.Enemy.count, GO.Screen.width - 10, GO.Screen.height - 30)
+	
+//	GO.ctx.textAlign = 'right'
+//	GO.ctx.fillStyle = 'white'
+//	GO.ctx.fillText('Step: ' + this.level.stepindex, GO.Screen.width - 10, GO.Screen.height - 60)
 }
 

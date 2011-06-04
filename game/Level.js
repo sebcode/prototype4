@@ -9,7 +9,7 @@ P4.Level = function(scene, startWith)
 
 	if (this.startWith) {
 		for (var i = 0; i <= this.sequence.length; i += 1) {
-			if (this.startWith == this.sequence[i]) {
+			if (this.sequence[i].level && this.startWith == this.sequence[i].level) {
 				this.stepindex = i
 				break
 			}
@@ -24,7 +24,7 @@ P4.Level.prototype.stepindex = 0
 P4.Level.prototype.wait = 0
 P4.Level.prototype.forcewait = 0
 P4.Level.prototype.lastLevelIndex = 0
-//P4.Level.prototype.startWith = 'dummy2'
+//P4.Level.prototype.startWith = 18
 
 P4.Level.prototype.pattern.powerupW = function()
 {
@@ -55,9 +55,11 @@ P4.Level.prototype.pattern.star = function()
 
 P4.Level.prototype.pattern.minis = function()
 {
+	GO.Sound.play('minis')
+
 	for (var i = 0; i < 20; i += 1) {
-		var c = { r: -1, g: -1, b: -1 }
-			,ec = { r: -1, g: -1, b: -1 }
+		var c = { r: -1, g: 255, b: 255 }
+			,ec = { r: -1, g: 255, b: 255 }
 			,a = new P4.EnemyShip(c, ec)
 
 		a.x = 100 + (GO.Screen.width - 200) * Math.random()
@@ -200,18 +202,185 @@ P4.Level.prototype.pattern.rush2 = function()
 
 P4.Level.prototype.pattern.rush3 = function()
 {
-	for (var i = 0; i < 8; i += 1) {
+	var l = 8
+		,powerup = this.step.powerup ? Math.floor(Math.random() * l) : false
+
+	for (var i = 0; i < l; i += 1) {
 		var a = new P4.EnemyShipLime()
 		a.x = 100 + (GO.Screen.width - 200) * Math.random()
 		a.life = 5
 		a.v = 0.5 + (Math.random() * 2)
+		
+		if (i == powerup) {
+			a.powerup = this.step.powerup
+		}
+
 		this.scene.layers.fg.push(a)
 	}
 }
 
-P4.Level.prototype.pattern.boss = function()
+P4.Level.prototype.pattern.linelimeslow = function()
 {
-	var a = new P4.EnemyBoss()
+	var l = 12
+		,powerup = this.step.powerup ? Math.floor(Math.random() * l) : false
+	
+	for (var i = 0; i < l; i += 1) {
+		a = new P4.EnemyShipLime()
+		a.x = (GO.Screen.width / (l - 1)) * i
+
+		if (i == powerup) {
+			a.powerup = this.step.powerup
+		}
+
+		this.scene.layers.fg.push(a)
+	}
+}
+
+P4.Level.prototype.pattern.formation1 = function(d, y)
+{
+	a = new P4.EnemyShipLime()
+	a.x = (GO.Screen.width / 2) - d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) - d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShipLime()
+	a.x = (GO.Screen.width / 2) + d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) + d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.formation2 = function(d, y)
+{
+	a = new P4.EnemyShipOrange()
+	a.x = (GO.Screen.width / 2) - d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) - d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShipOrange()
+	a.x = (GO.Screen.width / 2) + d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) + d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.formation3 = function(d, y)
+{
+	var c = { r: 255, g: 0, b: -1 }
+		,ec = { r: 255, g: 0, b: -1 }
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) - d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) - d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) + d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) + d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.formation4 = function(d, y)
+{
+	var c = { r: -1, g: 255, b: 0 }
+		,ec = { r: -1, g: 255, b: 0 }
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) - d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) - d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) + d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) + d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.formation5 = function(d, y)
+{
+	var c = { r: 0, g: -1, b: 255 }
+		,ec = { r: 0, g: -1, b: 255 }
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) - d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) - d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) + d
+	a.y = -10
+	a.canFlyAway = false
+	a.canFollowPlayer = false
+	a.tx = (GO.Screen.width / 2) + d
+	a.ty = y
+	a.v = 3
+	this.scene.layers.fg.push(a)
+}
+
+P4.Level.prototype.pattern.kamikaze = function()
+{
+	var c = { r: -1, g: 255, b: -1 }
+		,ec = { r: -1, g: 255, b: -1 }
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) + 200
+	a.y = -10
+	a.v = 1
+	a.size = 0.8
+	a.canFlyAway = false
+	a.canFollowPlayer = true
+	this.scene.layers.fg.push(a)
+	
+	a = new P4.EnemyShip(c, ec)
+	a.x = (GO.Screen.width / 2) - 200
+	a.y = -10
+	a.v = 1
+	a.size = 0.8
+	a.canFlyAway = false
+	a.canFollowPlayer = true
 	this.scene.layers.fg.push(a)
 }
 
@@ -225,7 +394,7 @@ P4.Level.prototype.process = function()
 		GO.ctx.fillText(this.levelText, GO.Screen.width / 2, GO.Screen.height / 2 - 30)
 	}
 
-	this.processStep()
+	this.processSteps()
 }
 
 P4.Level.prototype.gotoLast = function()
@@ -234,12 +403,20 @@ P4.Level.prototype.gotoLast = function()
 	this.step = false
 }
 
-P4.Level.prototype.processStep = function()
+P4.Level.prototype.processSteps = function()
 {
+	if (GO.tick == this.lasttick) {
+		return
+	} else {
+		this.lasttick = GO.tick
+	}
+
+	/* wait until player respawn */
 	if (this.scene.player.heaven) {
 		return
 	}
 
+	/* all levels done => endscene */
 	if (this.stepindex > this.sequence.length - 1) {
 		if (P4.Enemy.count > 0) {
 			return
@@ -251,57 +428,78 @@ P4.Level.prototype.processStep = function()
 		return
 	}
 
-	if (GO.tick != this.lasttick) {
-		if (this.forcewait > 0) {
-			this.forcewait -= 1
-		} else if (this.wait > 0) {
-			this.wait -= 1
-		} else if (!this.step) {
-			if (typeof this.sequence[this.stepindex] == 'string') {
-				if (P4.Enemy.count <= 0) {
-					GO.Sound.play('level_start')
+	if (this.forcewait > 0) {
+		this.forcewait -= 1
+		return
+	}
 
-					//var rgb = GO.Util.createColorRGB({r: -1, g: -1, b: -1})
-					//this.scene.setOverlayColor(rgb.r + ',' + rgb.g + ',' + rgb.b)
-
-					this.levelText = this.sequence[this.stepindex]
-					
-					if (ext && ext.save) {
-						ext.save('Level', this.levelText)
-					}
-				
-					P4.track(this.levelText)
-
-					this.drawLevelText = true
-					this.lastLevelIndex = this.stepindex
-					this.forcewait = 20
-					this.stepindex += 1
-					return
-				}
-			} else if (this.sequence[this.stepindex].bgcolor) {
-				this.scene.setOverlayColor(this.sequence[this.stepindex].bgcolor)
-				this.stepindex += 1
-				return
-			} else {
-				this.drawLevelText = false
-				this.step = this.sequence[this.stepindex]
-				if (!this.step) {
-					this.step = false
-					this.stepindex += 1
-					return
-				} else {
-					this.wait = this.step.w
-				}
-			}
-		} else {
-			if (this.step.p) {
-				this.pattern[this.step.p].call(this)
-			}
-			this.step = false
-			this.stepindex += 1
-		}
+	if (this.wait > 0) {
+		this.wait -= 1
+		return
+	}
 	
-		this.lasttick = GO.tick
+	if (this.step) {
+		if (this.step.color !== undefined) {
+			if (this.step.color) {
+				this.scene.setOverlayColor(this.step.color)
+			} else {
+				this.scene.setOverlayColor(false)
+			}
+		}
+
+		if (this.step.waitforenemiesdead && P4.Enemy.count > 0) {
+			return
+		}
+
+		if (this.step.p && typeof this.step.p == 'string') {
+			this.pattern[this.step.p].call(this)
+		} else if (this.step.p) {
+			this.step.p.call(this)
+		}
+
+		this.step = false
+		this.stepindex += 1
+		return
+	}
+
+	var seq = this.sequence[this.stepindex]
+	
+	if (seq.level) {
+		if (P4.Enemy.count > 0) {
+			return
+		}
+
+		GO.Sound.play('level_start')
+
+		if (seq.color) {
+			this.scene.setOverlayColor(seq.color)
+		} else {
+			this.scene.setOverlayColor(false)
+		}
+
+		this.levelText = 'Level ' + seq.level
+		
+		if (ext && ext.save) {
+			ext.save('Level', seq.level)
+		}
+		
+		P4.track(this.levelText)
+
+		this.drawLevelText = true
+		this.lastLevelIndex = this.stepindex
+		this.forcewait = 20
+		this.stepindex += 1
+		return
+	}
+
+	this.drawLevelText = false
+	this.step = this.sequence[this.stepindex]
+	if (!this.step) {
+		this.step = false
+		this.stepindex += 1
+		return
+	} else {
+		this.wait = this.step.w
 	}
 }
 

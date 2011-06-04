@@ -43,7 +43,10 @@ P4.EnemyShip.prototype.lethal = true
 P4.EnemyShip.prototype.life = 2
 P4.EnemyShip.prototype.canFire = true
 P4.EnemyShip.prototype.canFlyAway = true
+P4.EnemyShip.prototype.canFollowPlayer = true
 P4.EnemyShip.prototype.explodeLifetime = 1 / 5
+P4.EnemyShip.prototype.tx = false
+P4.EnemyShip.prototype.ty = false
 
 P4.EnemyShip.prototype.process = function()
 {
@@ -75,8 +78,10 @@ P4.EnemyShip.prototype.process = function()
 		,py = player.y
 	
 	if (!this.flyaway) {
-		this.tx = px
-		this.ty = py
+		if (this.canFollowPlayer) {
+			this.tx = px
+			this.ty = py
+		}
 
 		var d = Math.sqrt(Math.pow(px - this.x, 2) + Math.pow(py - this.y, 2))
 
@@ -100,6 +105,8 @@ P4.EnemyShip.prototype.process = function()
 	this.x += (this.tx - this.x) * (GO.delta * this.v)
 	this.y += (this.ty - this.y) * (GO.delta * this.v)
 
+	this.x += Math.sin(GO.tick) * (GO.delta * (10 * Math.random() + 20))
+
 	if (this.y - 200 > GO.Screen.height
 		|| this.x > GO.Screen.width
 		|| this.x < 0) {
@@ -107,11 +114,12 @@ P4.EnemyShip.prototype.process = function()
 		this.dead = true
 	}
 	
-	/* angle pointing to mouse position */
-
-	this.angle = (Math.PI / 2) + Math.atan((this.y - this.ty) / (this.x - this.tx))
-	if (px <= this.x) {
-		this.angle -= Math.PI
+	/* angle pointing to player's position */
+	if (!player.heaven) {
+		this.angle = (Math.PI / 2) + Math.atan((this.y - py) / (this.x - px))
+		if (px <= this.x) {
+			this.angle -= Math.PI
+		}
 	}
 
 	if (this.flyaway) {
@@ -121,22 +129,23 @@ P4.EnemyShip.prototype.process = function()
 
 P4.EnemyShip.prototype.fire = function()
 {
-	if (this.lastTick != GO.tick) {
-		/* fire shot */
-		if (GO.tick % 5 == 0) {
-			var e = new P4.Shot
-			e.fillStyle = 'red'
-			e.x = this.x
-			e.y = this.y
-			e.v = 200
-			e.cr = 4
-			e.angle = this.angle
-			e.lethal = true
-			e.collidesWith = [ P4.Player ]
-			GO.scenes.game.layers.fg.push(e)
-		}
-		
-		this.lastTick = GO.tick
+	if (this.lastTick == GO.tick) {
+		return
+	}
+	
+	this.lastTick = GO.tick
+
+	if (GO.tick % 5 == 0) {
+		var e = new P4.Shot
+		e.fillStyle = 'red'
+		e.x = this.x
+		e.y = this.y
+		e.v = 200
+		e.cr = 4
+		e.angle = this.angle
+		e.lethal = true
+		e.collidesWith = [ P4.Player ]
+		GO.scenes.game.layers.fg.push(e)
 	}
 }
 

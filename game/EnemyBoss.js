@@ -9,7 +9,6 @@ P4.EnemyBoss = function()
 	this.tx = GO.Screen.width / 2
 	this.ty = 100
 
-	this.color = '247,252,105'
 	this.angle = Math.PI
 	
 	this.tail = new GO.LinkedList
@@ -32,6 +31,7 @@ P4.EnemyBoss.prototype.v = 3
 P4.EnemyBoss.prototype.cr = 30
 P4.EnemyBoss.prototype.lethal = true
 P4.EnemyBoss.prototype.life = 100
+P4.EnemyBoss.prototype.color = '247,252,105'
 
 P4.EnemyBoss.prototype.process = function()
 {
@@ -195,8 +195,12 @@ P4.EnemyBoss.prototype.drawShip = function(x, y, angle, alpha, color)
 	GO.ctx.restore()
 }
 
-P4.EnemyBoss.prototype.explode = function(x, y, v)
+P4.EnemyBoss.prototype.explode = function(x, y, v, n)
 {
+	if (!n) {
+		n = 10
+	}
+
 	var p = new GO.Particles
 	p.colorscheme = this.excolorscheme
 	p.x = x
@@ -204,7 +208,7 @@ P4.EnemyBoss.prototype.explode = function(x, y, v)
 	p.lifetime = 1 / 5
 	p.v = v
 	p.vr = 100
-	p.explode(10)
+	p.explode(n)
 	this.push(p)
 }
 
@@ -226,8 +230,8 @@ P4.EnemyBoss.prototype.oncollision = function(s, d)
 	s.dead = true
 
 	if (this.life <= 0) {
-		GO.Sound.play('explode1')
-		this.explode(s.x, s.y, 300)
+		GO.Sound.play('boss_explode')
+		this.explode(s.x, s.y, 500, 50)
 		this.dust = false
 		this.lethal = false
 		this.hit = true

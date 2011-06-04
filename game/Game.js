@@ -8,10 +8,10 @@ P4.track = function(t)
 
 GO.init = function()
 {
-	this.debug = document.location.hash == '#d'
+	this.debug = document.location.hash.indexOf('#d') > -1
 
 	if (this.debug) {
-		//this.godMode = true
+		this.godMode = document.location.hash.indexOf('godmode') > -1
 		//this.wireFrame = true
 		this.config.showFPS = true
 	}
@@ -50,7 +50,12 @@ GO.init = function()
 	GO.scenes.menu = new P4.MenuScene
 	
 	if (this.debug) {
-		GO.scenes.game = new P4.GameScene
+		/* jump to level via url hash: #d,level=10 */
+		var ret = document.location.hash.match(/level=(\d+)/)
+			,level = ret ? ret[1] : false
+
+		console.log(level)
+		GO.scenes.game = new P4.GameScene(level)
 		GO.setScene(GO.scenes.game)
 	} else {
 		GO.setScene(GO.scenes.intro)

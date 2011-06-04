@@ -12,5 +12,3 @@ energy and to improve your weapon.
 Programmed by Sebastian Volland.
 http://baunz.net/
 
-The Atari font is from:
-http://members.bitstream.net/marksim/atarimac/fonts.html

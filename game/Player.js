@@ -17,6 +17,18 @@ P4.Player = function(scene)
 	this.dust.lifetime = 1 / 10
 	this.dust.v = (1 + Math.random() * 2) * 50
 	this.push(this.dust)
+	
+	this.tail = new GO.LinkedList
+	for (var i = 0; i < 20; i += 1) {
+		this.tail.push({
+			x: -100
+			,y: -100
+			,angle: 0
+			,alpha: 1
+		})
+	}
+	this.tailCur = this.tail.first
+
 }
 
 GO.Util.extend(P4.Player, GO.VisibleEntityGroup)
@@ -26,7 +38,7 @@ P4.Player.prototype.cr = 8
 P4.Player.prototype.size = 1
 P4.Player.prototype.lives = 3
 P4.Player.prototype.weapon = 0
-P4.Player.prototype.energy = 50
+P4.Player.prototype.energy = 30
 P4.Player.prototype.score = 0
 
 P4.Player.prototype.reset = function()
@@ -223,26 +235,26 @@ P4.Player.prototype.process = function()
 		this.angle = Math.sin(n / 100)
 	}
 
-	/* tail */
-	this.push({
-		lt: 2,
-		angle: this.angle,
-		alpha: 1,
-		x: this.x,
-		y: this.y,
-		parent: this,
-		size: this.size,
-		process: function() {
-			this.lt -= GO.delta * 10
-			if (this.lt <= 0) {
-				this.dead = true
-				return false
-			}
-
-			this.alpha = this.alpha / 1.5
-			this.parent.drawShip(this.x, this.y, this.angle, this.alpha)
-		}
-	})
+//	/* tail */
+//	this.push({
+//		lt: 2,
+//		angle: this.angle,
+//		alpha: 1,
+//		x: this.x,
+//		y: this.y,
+//		parent: this,
+//		size: this.size,
+//		process: function() {
+//			this.lt -= GO.delta * 10
+//			if (this.lt <= 0) {
+//				this.dead = true
+//				return false
+//			}
+//
+//			this.alpha = this.alpha / 1.5
+//			this.parent.drawShip(this.x, this.y, this.angle, this.alpha)
+//		}
+//	})
 	
 	if (!this.spawn && this.invincible) {
 		GO.ctx.beginPath()
@@ -251,7 +263,39 @@ P4.Player.prototype.process = function()
 		GO.ctx.fill()
 	}
 	
-	this.drawShip(this.x, this.y, this.angle, 1)
+	this.drawTail(this.x, this.y)
+}
+
+P4.Player.prototype.drawTail = function(x, y)
+{
+	if (this.tailCur) {
+		this.tailCur.x = x
+		this.tailCur.y = y
+		this.tailCur.angle = this.angle
+		this.tailCur.alpha = 1
+		if (this.tailCur.llnext) {
+			this.tailCur = this.tailCur.llnext
+		} else {
+			this.tailCur = this.tail.first
+		}
+	}
+
+	var i = 0
+		,cur = this.tailCur
+
+	do {
+		cur.alpha -= 1 / 10
+		if (cur.alpha > 0.1) {
+			this.drawShip(cur.x, cur.y, cur.angle, cur.alpha, this.color)
+		}
+
+		if (cur.llnext) {
+			cur = cur.llnext
+		} else {
+			cur = this.tail.first
+		}
+		i += 1
+	} while (i < this.tail.count)
 }
 
 P4.Player.prototype.fireSingleShot = function()
