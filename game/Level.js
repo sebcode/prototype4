@@ -479,8 +479,10 @@ P4.Level.prototype.processSteps = function()
 
 		this.levelText = 'Level ' + seq.level
 		
-		if (ext && ext.save) {
-			ext.save('Level', seq.level)
+		if (seq.level > 1) {
+			P4.GameState.store('level', seq.level)
+			P4.GameState.store('score', this.scene.player.score)
+			P4.GameState.store('lives', this.scene.player.lives)
 		}
 		
 		P4.track(this.levelText)

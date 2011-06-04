@@ -7,6 +7,14 @@ P4.EndScene = function(label1, score)
 
 	this.score = score
 
+	var highscore = P4.GameState.get('highscore')
+	if (score > highscore) {
+		P4.GameState.store('highscore', score)
+		this.isNewHighScore = true
+	} else {
+		this.isNewHighScore = false
+	}
+
 	P4.EndScene.superproto.constructor.call(this)
 
 	this.layers.handlers = new GO.Layer
@@ -67,7 +75,14 @@ P4.EndScene.prototype.drawSubTitle = function()
 	GO.ctx.fillStyle = '#fff'
 	GO.ctx.textBaseline = 'middle'
 	GO.ctx.textAlign = 'center'
-	GO.ctx.fillText('Your score: ' + this.score, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
+
+	var label = 'YOUR SCORE : ' + this.score
+
+	if (this.isNewHighScore) {
+		label = 'NEW HIGHSCORE : ' + this.score;
+	}
+
+	GO.ctx.fillText(label, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
 }
 
 P4.EndScene.prototype.handleEvent = function()

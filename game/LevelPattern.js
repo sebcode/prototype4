@@ -1,40 +1,172 @@
 
 P4.Level.prototype.sequence = [
 	{ level: 1 }
-	,{ w: 20, p: 'singlerandom' }
-	,{ w: 20, p: 'singlerandom' }
-	,{ w: 20, p: 'singlerandom' }
-	,{ w: 20, p: 'singlerandom' }
-	,{ w: 20, p: 'singlerandom' }
-	,{ w: 20, p: 'singlerandom' }
+	,{ w: 0, p: 'singlerandom' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'singlerandom' }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 0, p: 'lineblueslow', powerup: 1 }
-	,{ w: 0, p: 'lineblueslow', powerup: 1 }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 5, p: 'singlerandom' }
-	,{ w: 50, p: 'linepurple' }
-	,{ w: 50, p: 'lineblueslow', powerup: 1 }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 20, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 0, p: 'powerupW' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'linepurple' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ w: 0, p: 'powerupW' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ w: 50, p: 'lineblueslow' }
+	,{ w: 100, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 20, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 0, p: 'powerupW' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'linepurple' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ w: 0, p: 'powerupW' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	
 	,{ level: 2 }
-	,{ w: 50, p: 'n4' }
-	,{ w: 50, p: 'n5' }
-	,{ w: 50, p: 'n4' }
-	,{ w: 50, p: 'n5' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
 	,{ w: 0, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 0, p: 'powerupE' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
 	,{ w: 0, p: 'star' }
-	,{ w: 50, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
 	,{ w: 0, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 0, p: 'powerupE' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 5, p: 'star' }
+	,{ w: 0, p: 'powerupE' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ w: 1, p: 'singlerandom' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 
 	,{ level: 3 }
-	,{ w: 50, p: 'yellowline', powerup: 1 }
-	,{ w: 100, p: 'n4' }
+	,{ w: 0, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
 	,{ w: 0, p: 'n5' }
-	,{ w: 50, p: 'lineblueslow', powerup: 1 }
-	,{ w: 100, p: 'star' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'n4' }
+	,{ w: 0, p: 'n5' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
@@ -43,28 +175,51 @@ P4.Level.prototype.sequence = [
 	,{ w: 0, p: 'star' }
 
 	,{ level: 4 }
+	,{ w: 0, p: 'powerupW' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 100, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'lineblueslow' }
 
 	,{ level: 5 }
 	,{ w: 0, p: 'star' }
@@ -73,111 +228,275 @@ P4.Level.prototype.sequence = [
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'n4', powerup: 1 }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'n5', powerup: 1 }
+	,{ w: 10, p: 'n5' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'n4', powerup: 1 }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 100, p: 'n5', powerup: 1 }
+	,{ w: 0, p: 'n5' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'n4', powerup: 1 }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'n5', powerup: 1 }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'n5' }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n4' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'n5' }
 
 	,{ level: 6 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'yellowline' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
 	,{ w: 10, p: 'star' }
 	,{ w: 10, p: 'singlerandom' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ w: 10, p: 'star' }
+	,{ w: 10, p: 'singlerandom' }
+	,{ waitforenemiesdead: true }
 
 	,{ level: 7 }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 100, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 100, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
-	,{ w: 100, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
 
 	,{ level: 8 }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 20, p: 'lineblueslow', powerup: 1 }
+	,{ w: 20, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 30, p: 'lineblueslow', powerup: 1 }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 20, p: 'lineblueslow', powerup: 1 }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
-	,{ w: 30, p: 'lineblueslow', powerup: 1 }
+	,{ w: 30, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 10, p: 'lineblueslow', powerup: 1 }
+	,{ w: 10, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 20, p: 'lineblueslow', powerup: 1 }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
 	,{ w: 0, p: 'star' }
-	,{ w: 30, p: 'lineblueslow', powerup: 1 }
+	,{ w: 30, p: 'lineblueslow' }
 	,{ w: 0, p: 'star' }
-	,{ w: 10, p: 'yellowline', powerup: 1 }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'powerupW' }
+	,{ w: 10, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 20, p: 'lineblueslow' }
+	,{ waitforenemiesdead: true }
+	,{ w: 0, p: 'star' }
+	,{ w: 30, p: 'lineblueslow' }
+	,{ w: 0, p: 'star' }
+	,{ w: 10, p: 'yellowline' }
 	
-	,{ level: 9 }
+	,{ level: 9, color: '52,170,202' }
 	,{ w: 0, p: 'powerupW' }
 	,{ w: 0, p: 'powerupW' }
 	,{ w: 0, p: 'powerupW' }
-	,{ w: 50, p: 'yellowline', powerup: 1 }
+	,{ w: 50, p: 'yellowline' }
 	,{ w: 10, p: 'n4' }
 	,{ w: 0, p: 'n5' }
-	,{ w: 50, p: 'lineblueslow', powerup: 1 }
+	,{ w: 50, p: 'lineblueslow' }
 	,{ w: 10, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 50, p: 'yellowline', powerup: 1 }
+	,{ w: 50, p: 'yellowline' }
 	,{ w: 10, p: 'n4' }
 	,{ w: 0, p: 'n5' }
-	,{ w: 50, p: 'lineblueslow', powerup: 1 }
+	,{ w: 50, p: 'lineblueslow' }
 	,{ w: 10, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
-	,{ w: 50, p: 'yellowline', powerup: 1 }
+	,{ w: 50, p: 'yellowline' }
 	,{ w: 10, p: 'n4' }
 	,{ w: 0, p: 'n5' }
-	,{ w: 50, p: 'lineblueslow', powerup: 1 }
+	,{ w: 50, p: 'lineblueslow' }
 	,{ w: 10, p: 'star' }
 	,{ w: 0, p: 'star' }
 	,{ w: 0, p: 'star' }
@@ -757,7 +1076,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 120, 50) }}
 	,{ w: 5, p: 'minis' }
 
-	,{ level: 19 }
+	,{ level: 19, color: '127,255,0' }
 	,{ w: 5, p: 'powerupW' }
 	,{ w: 50, p: 'yellowline', powerup: 1 }
 	,{ w: 20, p: 'rush2' }

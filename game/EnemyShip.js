@@ -30,7 +30,7 @@ P4.EnemyShip = function(colorscheme, excolorscheme)
 	}
 	this.tailCur = this.tail.first
 
-	this.y = -30
+	this.y = -10
 }
 
 GO.Util.extend(P4.EnemyShip, P4.Enemy)
@@ -44,6 +44,7 @@ P4.EnemyShip.prototype.life = 2
 P4.EnemyShip.prototype.canFire = true
 P4.EnemyShip.prototype.canFlyAway = true
 P4.EnemyShip.prototype.canFollowPlayer = true
+P4.EnemyShip.prototype.canGiveScore = true
 P4.EnemyShip.prototype.explodeLifetime = 1 / 5
 P4.EnemyShip.prototype.tx = false
 P4.EnemyShip.prototype.ty = false
@@ -228,7 +229,7 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 	} else {
 		GO.Sound.play('hit')
 		this.explode(s.x, s.y, 10)
-		GO.scenes.game.player.score += 100 + Math.floor(this.v * 100)
+		if (this.canGiveScore) GO.scenes.game.player.score += 100 + Math.floor(this.v * 100)
 	}
 }
 

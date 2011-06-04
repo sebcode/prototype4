@@ -134,6 +134,7 @@ P4.EnemyBoss.prototype.fire = function()
 		a.size = 0.2
 		a.canFire = false
 		a.canFlyAway = false
+		a.canGiveScore = false
 		a.explodeLifetime = 1 / 20
 		GO.scenes.game.layers.fg.push(a)
 	}

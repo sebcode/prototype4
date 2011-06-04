@@ -1,5 +1,5 @@
 
-P4.GameScene = function(startLevel)
+P4.GameScene = function(state)
 {
 	P4.GameScene.superproto.constructor.call(this)
 
@@ -14,7 +14,13 @@ P4.GameScene = function(startLevel)
 	this.layers.fg = new GO.Layer /* foreground */
 	this.layers.transition = new GO.Layer
 
+	var score = state && state.score ? state.score : false
+		, lives = state && state.lives ? state.lives : false
+		, startLevel = state && state.level ? state.level : false
+
 	this.player = new P4.Player(this)
+	if (lives) this.player.lives = lives
+	if (score) this.player.score = score
 	this.player.ondied = {
 		fn: this.onPlayerDied
 		,ctx: this
@@ -53,6 +59,10 @@ P4.GameScene.prototype.activate = function()
 P4.GameScene.prototype.onPlayerDied = function()
 {
 	if (this.player.lives <= 0) {
+		P4.GameState.store('level', false)
+		P4.GameState.store('score', 0)
+		P4.GameState.store('lives', 0)
+
 		GO.scenes.end = new P4.EndScene('Game Over', this.player.score)
 		GO.setScene(GO.scenes.end)
 		P4.track('gameover')
@@ -143,6 +153,10 @@ P4.GameScene.prototype.setOverlayColor = function(rgb)
 		return
 	}
 
+	if (this.overlayColor == rgb) {
+		return
+	}
+
 	this.overlayNextColor = rgb
 }
 
@@ -210,9 +224,9 @@ P4.GameScene.prototype.drawHUD = function()
 		return
 	}
 	
-//	GO.ctx.textAlign = 'right'
-//	GO.ctx.fillStyle = 'white'
-//	GO.ctx.fillText('Entities: ' + GO.entityCount, GO.Screen.width - 10, GO.Screen.height - 30)
+	GO.ctx.textAlign = 'right'
+	GO.ctx.fillStyle = 'white'
+	GO.ctx.fillText('wait: ' + this.level.wait + ' : forcewait: ' + this.level.forcewait, GO.Screen.width - 10, GO.Screen.height - 50)
 	
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillStyle = 'white'

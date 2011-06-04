@@ -6,8 +6,53 @@ P4.track = function(t)
 {
 }
 
+P4.GameState = { }
+
+P4.GameState.init = function()
+{
+	if (!window.ext || !window.ext.getGameState) {
+		return
+	}
+	
+	P4.GameState.data = { }
+
+	var state = ext.getGameState()
+	if (!state) {
+		return
+	}
+
+	state = JSON.parse(state)
+	if (!state) {
+		return
+	}
+
+	P4.GameState.data = state
+}
+
+P4.GameState.store = function(key, val)
+{
+	if (!window.ext || !window.ext.save) {
+		return
+	}
+	
+	P4.GameState.data[key] = val
+
+	ext.save('GameState', JSON.stringify(P4.GameState.data))
+}
+
+P4.GameState.get = function(key)
+{
+	if (!P4.GameState.data.hasOwnProperty(key)) {
+		return false
+	}
+
+	return P4.GameState.data[key]
+}
+
 GO.init = function()
 {
+	P4.GameState.init()
+
 	this.debug = document.location.hash.indexOf('#d') > -1
 
 	if (this.debug) {
@@ -54,8 +99,7 @@ GO.init = function()
 		var ret = document.location.hash.match(/level=(\d+)/)
 			,level = ret ? ret[1] : false
 
-		console.log(level)
-		GO.scenes.game = new P4.GameScene(level)
+		GO.scenes.game = new P4.GameScene({ level: level, score: 100, lives: 3 })
 		GO.setScene(GO.scenes.game)
 	} else {
 		GO.setScene(GO.scenes.intro)

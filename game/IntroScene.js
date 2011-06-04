@@ -43,14 +43,12 @@ P4.IntroScene.prototype.activate = function()
 	
 	this.items = []
 
-	var cont = ext.getContinue()
-	if (cont && cont != 'Level 1') {
+	var continueLevel = P4.GameState.get('level')
+	if (continueLevel) {
 		this.items.push('continue')
 	}
 
 	this.items.push('new game')
-	this.items.push('high scores')
-	this.items.push('credits')
 	this.items.push('quit')
 }
 
@@ -60,7 +58,7 @@ P4.IntroScene.prototype.process = function()
 
 	this.drawTitle()
 	this.drawMenu()
-	this.drawCredit()
+	this.drawFooter()
 
 	if (!P4.IntroScene.superproto.process.call(this)) {
 		return
@@ -143,7 +141,7 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 {
 	switch (item) {
 		case 'continue':
-			this.beginGame(ext.getContinue())
+			this.beginGame(P4.GameState.data)
 			break
 
 		case 'new game':
@@ -158,22 +156,28 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 	}
 }
 
-P4.IntroScene.prototype.drawCredit = function()
+P4.IntroScene.prototype.drawFooter = function()
 {
 	GO.ctx.font = '8px ' + GO.config.fontName
 	GO.ctx.fillStyle = '#666'
 	GO.ctx.textBaseline = 'bottom'
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillText('A Game By Sebastian Volland', GO.Screen.width - 5, GO.Screen.height - 5)
+	
+	if (P4.GameState.data.highscore) {
+		GO.ctx.textBaseline = 'bottom'
+		GO.ctx.textAlign = 'left'
+		GO.ctx.fillText('HIGHSCORE: ' + P4.GameState.data.highscore, 5, GO.Screen.height - 5)
+	}
 }
 
-P4.IntroScene.prototype.beginGame = function(startLevel)
+P4.IntroScene.prototype.beginGame = function(gameState)
 {
 	t = new GO.Transition
 	t.v = 2
 	t.ondone = {
 		fn: function() {
-			GO.scenes.game = new P4.GameScene(startLevel)
+			GO.scenes.game = new P4.GameScene(gameState)
 			GO.setScene(GO.scenes.game)
 		}, ctx: this
 	}
