@@ -907,6 +907,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 100, 50) }}
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 120, 50) }}
 	,{ w: 5, p: 'powerupW' }
+	,{ waitforenemiesdead: true }
 	,{ w: 50, p: function() { this.pattern.formation2.call(this, 20, 200) }}
 	,{ w: 1, p: function() { this.pattern.formation2.call(this, 40, 200) }}
 	,{ w: 1, p: function() { this.pattern.formation2.call(this, 60, 200) }}
@@ -938,6 +939,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 80, 50) }}
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 100, 50) }}
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 120, 50) }}
+	,{ waitforenemiesdead: true }
 	,{ w: 5, p: 'powerupW' }
 	,{ w: 50, p: function() { this.pattern.formation3.call(this, 20, 200) }}
 	,{ w: 1, p: function() { this.pattern.formation3.call(this, 40, 200) }}
@@ -1007,6 +1009,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 120, 50) }}
 	,{ w: 5, p: 'powerupW' }
 	,{ w: 5, p: 'minis' }
+	,{ waitforenemiesdead: true }
 	,{ w: 50, p: function() { this.pattern.formation2.call(this, 20, 200) }}
 	,{ w: 1, p: function() { this.pattern.formation2.call(this, 40, 200) }}
 	,{ w: 1, p: function() { this.pattern.formation2.call(this, 60, 200) }}
