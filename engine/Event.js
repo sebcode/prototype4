@@ -49,6 +49,8 @@ GO.Event.init = function()
 
 	addEventListener('keypress', function(e) {
 		if (GO.pause) {
+			GO.pause = false
+			GO.oldtime = 0
 			return
 		}
 

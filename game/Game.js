@@ -114,6 +114,12 @@ GO.init = function()
 						}
 					}
 				break
+
+				case '=':
+					if (GO.debug) {
+						GO.pause = true
+					}
+				break
 			}
 		}
 	})
