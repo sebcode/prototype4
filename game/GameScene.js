@@ -21,24 +21,24 @@ P4.GameScene = function(state)
 	
 	switch (diff) {
 		case 1: /* normal */
-			P4.Player.prototype.energy = 10
-			P4.Player.prototype.lives = 2
+			P4.Player.prototype.energy = 30
+			P4.Player.prototype.lives = 3
 			break
 		
 		case 2: /* hard */
-			P4.Player.prototype.energy = 5
+			P4.Player.prototype.energy = 20
 			P4.Player.prototype.lives = 2
 			break
 		
 		case 3: /* ultra */
-			P4.Player.prototype.energy = 1
+			P4.Player.prototype.energy = 10
 			P4.Player.prototype.lives = 1
 			break
 		
 		default:
 		case 0: /* easy */
-			P4.Player.prototype.energy = 30
-			P4.Player.prototype.lives = 3
+			P4.Player.prototype.energy = 40
+			P4.Player.prototype.lives = 5
 			break
 	}
 
