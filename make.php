@@ -36,8 +36,25 @@ run('cat /tmp/script.js | java -jar /Users/seb/code/lib/yuicompressor-2.4.6.jar 
 
 $buf = str_replace('$SCRIPT$', file_get_contents('/tmp/script.min.js'), $buf);
 
-if (!file_put_contents('../p4-mac/game.html', $buf)) {
-	fail('could not write game.html');
+$origBuf = $buf;
+
+/* obfuscate xor */
+for ($i = 0; $i < strlen($buf); $i++) {
+	$buf[$i] = $buf[$i] ^ 'A';
+}
+
+/* verify xor */
+$v = $buf;
+for ($i = 0; $i < strlen($v); $i++) {
+	$v[$i] = $v[$i] ^ 'A';
+}
+
+if ($v !== $origBuf) {
+	fail('xor verify failed');
+}
+
+if (!file_put_contents('../p4-mac/game.dat', $buf)) {
+	fail('could not write game.dat');
 }
 
 unlink('/tmp/script.js');
