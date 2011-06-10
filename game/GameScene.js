@@ -17,7 +17,7 @@ P4.GameScene = function(state)
 	var score = state && state.score ? state.score : false
 		, lives = state && state.lives ? state.lives : false
 		, startLevel = state && state.level ? state.level : false
-		, diff = state && state.diff ? state.diff : false
+		, diff = state && state.diff ? state.diff : 0
 	
 	switch (diff) {
 		case 1: /* normal */
