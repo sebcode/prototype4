@@ -1079,7 +1079,7 @@ P4.Level.prototype.sequence = [
 	,{ w: 1, p: function() { this.pattern.formation1.call(this, 120, 50) }}
 	,{ w: 5, p: 'minis' }
 
-	,{ level: 19, color: '127,255,0' }
+	,{ level: 19, color: '143,10,139' }
 	,{ w: 5, p: 'powerupW' }
 	,{ w: 50, p: 'yellowline', powerup: 1 }
 	,{ w: 20, p: 'rush2' }
