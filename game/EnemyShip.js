@@ -78,6 +78,10 @@ P4.EnemyShip.prototype.process = function()
 		,px = player.x
 		,py = player.y
 	
+	if (player.heaven) {
+		this.canFlyAway = true
+	}
+	
 	if (!this.flyaway) {
 		if (this.canFollowPlayer) {
 			this.tx = px
