@@ -37,6 +37,11 @@ P4.GameState.store = function(key, val)
 	
 	P4.GameState.data[key] = val
 
+	P4.GameState.commit()
+}
+
+P4.GameState.commit = function()
+{
 	ext.save('GameState', JSON.stringify(P4.GameState.data))
 }
 
