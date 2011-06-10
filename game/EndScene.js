@@ -7,6 +7,10 @@ P4.EndScene = function(label1, score)
 
 	this.score = score
 
+	P4.GameState.store('level', false)
+	P4.GameState.store('score', 0)
+	P4.GameState.store('lives', 0)
+
 	var highscore = P4.GameState.get('highscore')
 	if (score > highscore) {
 		P4.GameState.store('highscore', score)
