@@ -481,8 +481,6 @@ P4.Level.prototype.processSteps = function()
 		this.diffText = P4.FormatDiff(this.scene.player.diff)
 		
 		if (seq.level > 1) {
-			this.scene.player.score += 100000
-
 			P4.GameState.data['level'] = seq.level
 			P4.GameState.data['score'] = this.scene.player.score
 			P4.GameState.data['lives'] = this.scene.player.lives
