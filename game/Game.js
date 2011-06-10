@@ -6,6 +6,28 @@ P4.track = function(t)
 {
 }
 
+P4.FormatDiff = function(diff)
+{
+	switch (diff) {
+		case 0: return 'easy'
+		case 1: return 'normal'
+		case 2: return 'hard'
+		case 3: return 'ultra'
+		default: return 'easy'
+	}
+}
+
+P4.DiffFromText = function(diff)
+{
+	switch (diff) {
+		case 'easy': return 0
+		case 'normal': return 1
+		case 'hard': return 2
+		case 'ultra': return 3
+		default: return false
+	}
+}
+
 P4.GameState = { }
 
 P4.GameState.init = function()

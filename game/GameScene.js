@@ -17,10 +17,35 @@ P4.GameScene = function(state)
 	var score = state && state.score ? state.score : false
 		, lives = state && state.lives ? state.lives : false
 		, startLevel = state && state.level ? state.level : false
+		, diff = state && state.diff ? state.diff : false
+	
+	switch (diff) {
+		case 1: /* normal */
+			P4.Player.prototype.energy = 10
+			P4.Player.prototype.lives = 2
+			break
+		
+		case 2: /* hard */
+			P4.Player.prototype.energy = 5
+			P4.Player.prototype.lives = 2
+			break
+		
+		case 3: /* ultra */
+			P4.Player.prototype.energy = 1
+			P4.Player.prototype.lives = 1
+			break
+		
+		default:
+		case 0: /* easy */
+			P4.Player.prototype.energy = 30
+			P4.Player.prototype.lives = 3
+			break
+	}
 
 	this.player = new P4.Player(this)
 	if (lives) this.player.lives = lives
 	if (score) this.player.score = score
+	this.player.diff = diff
 	this.player.ondied = {
 		fn: this.onPlayerDied
 		,ctx: this
@@ -59,7 +84,7 @@ P4.GameScene.prototype.activate = function()
 P4.GameScene.prototype.onPlayerDied = function()
 {
 	if (this.player.lives <= 0) {
-		GO.scenes.end = new P4.EndScene('Game Over', this.player.score)
+		GO.scenes.end = new P4.EndScene('Game Over', this.player.score, this.player.diff)
 		GO.setScene(GO.scenes.end)
 		P4.track('gameover')
 		return false
@@ -193,18 +218,18 @@ P4.GameScene.prototype.drawHUD = function()
 	if (this.level.levelText) {
 		GO.ctx.fillStyle = 'white'
 		GO.ctx.textAlign = 'left'
-		GO.ctx.fillText(this.level.levelText, 10, GO.Screen.height - 10)
+		GO.ctx.fillText(this.level.levelText + ' - ' + this.level.diffText, 10, GO.Screen.height - 10)
 	}
 
 	/* energy */
 	GO.ctx.textAlign = 'left'
-	GO.ctx.fillText('Energy:', 100, GO.Screen.height - 10)
+	GO.ctx.fillText('Energy:', 150, GO.Screen.height - 10)
 	
 	GO.ctx.fillStyle = (this.player.energy <= 3 ? 'red' : 'white')
 	GO.ctx.strokeStyle = GO.ctx.fillStyle
 	GO.ctx.lineWidth = 1
-	GO.ctx.strokeRect(165, GO.Screen.height - 16, P4.Player.prototype.energy * 3, 5)
-	GO.ctx.fillRect(165, GO.Screen.height - 16, this.player.energy * 3, 5)
+	GO.ctx.strokeRect(215, GO.Screen.height - 16, P4.Player.prototype.energy * 3, 5)
+	GO.ctx.fillRect(215, GO.Screen.height - 16, this.player.energy * 3, 5)
 
 	/* score */
 	GO.ctx.fillStyle = 'white'

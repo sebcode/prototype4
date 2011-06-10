@@ -40,6 +40,7 @@ P4.Player.prototype.lives = 3
 P4.Player.prototype.weapon = 0
 P4.Player.prototype.energy = 30
 P4.Player.prototype.score = 0
+P4.Player.prototype.diff = 0
 
 P4.Player.prototype.reset = function()
 {

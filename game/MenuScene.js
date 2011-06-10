@@ -16,7 +16,7 @@ P4.MenuScene = function()
 		{
 			label: 'new game',
 			func: function() {
-				GO.scenes.game = new P4.GameScene
+				GO.scenes.game = new P4.GameScene({ diff: GO.scenes.game.player.diff })
 				GO.setScene(GO.scenes.game)
 			}
 		},

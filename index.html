@@ -68,7 +68,17 @@ if (!window.ext) {
 	window.ext = {}
 	window.ext.play = function() {}
 	window.ext.getGameState = function() {
-		return '{}'
+		var state = {
+			highscore: {
+				easy: 100
+				,normal: 200
+				,hard: 300
+				,ultra: 400
+			}
+		}
+		state = {}
+
+		return JSON.stringify(state)
 	}
 	window.ext.save = function() {}
 }

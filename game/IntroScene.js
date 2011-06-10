@@ -40,7 +40,12 @@ P4.IntroScene.prototype.activate = function()
 	}, this))
 	
 	GO.Sound.play('intro')
-	
+
+	this.setMainMenu()
+}
+
+P4.IntroScene.prototype.setMainMenu = function()
+{
 	this.items = []
 
 	var continueLevel = P4.GameState.get('level')
@@ -145,7 +150,7 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 			break
 
 		case 'new game':
-			this.beginGame()
+			this.clickNewGame()
 			break
 
 		case 'quit':
@@ -153,7 +158,37 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 				ext.quit()
 			}
 			break
+
+		case 'BACK':
+			this.setMainMenu()
+			break
+
+		case 'easy':
+			this.beginGame({ diff: 0 })
+			break
+
+		case 'normal':
+			this.beginGame({ diff: 1 })
+			break
+
+		case 'hard':
+			this.beginGame({ diff: 2 })
+			break
+
+		case 'ultra':
+			this.beginGame({ diff: 3 })
+			break
 	}
+}
+
+P4.IntroScene.prototype.clickNewGame = function()
+{
+	this.items = []
+	this.items.push('easy')
+	this.items.push('normal')
+	this.items.push('hard')
+	this.items.push('ultra')
+	this.items.push('BACK')
 }
 
 P4.IntroScene.prototype.drawFooter = function()
@@ -163,11 +198,16 @@ P4.IntroScene.prototype.drawFooter = function()
 	GO.ctx.textBaseline = 'bottom'
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillText('A Game By Sebastian Volland', GO.Screen.width - 5, GO.Screen.height - 5)
-	
-	if (P4.GameState.data.highscore) {
+
+	var diff = P4.DiffFromText(this.lastMenuItem)
+
+	if (P4.GameState.data.highscore
+		&& diff !== false
+		&& P4.GameState.data.highscore[diff]) {
+
 		GO.ctx.textBaseline = 'bottom'
 		GO.ctx.textAlign = 'left'
-		GO.ctx.fillText('HIGHSCORE: ' + P4.GameState.data.highscore, 5, GO.Screen.height - 5)
+		GO.ctx.fillText('HIGHSCORE: ' + P4.GameState.data.highscore[diff], 5, GO.Screen.height - 5)
 	}
 }
 

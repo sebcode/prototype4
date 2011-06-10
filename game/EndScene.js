@@ -1,23 +1,32 @@
 
-P4.EndScene = function(label1, score)
+P4.EndScene = function(label1, score, diff)
 {
 	if (label1) {
 		this.label1 = label1
 	}
 
 	this.score = score
+	this.isNewHighScore = false
 
-	P4.GameState.store('level', false)
-	P4.GameState.store('score', 0)
-	P4.GameState.store('lives', 0)
+	P4.GameState.data['level'] = false
+	P4.GameState.data['score'] = 0
+	P4.GameState.data['lives'] = 0
+	P4.GameState.data['diff'] = 0
 
-	var highscore = P4.GameState.get('highscore')
-	if (score > highscore) {
-		P4.GameState.store('highscore', score)
-		this.isNewHighScore = true
-	} else {
-		this.isNewHighScore = false
+	var state = P4.GameState.data
+
+	if (!state.highscore) {
+		state.highscore = {}
 	}
+
+	if (!state.highscore[diff]) {
+		state.highscore[diff] = score
+	} else if (score > state.highscore[diff]) {
+		state.highscore[diff] = score
+		this.isNewHighScore = true
+	}
+	
+	P4.GameState.commit()
 
 	P4.EndScene.superproto.constructor.call(this)
 

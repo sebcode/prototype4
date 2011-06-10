@@ -422,7 +422,7 @@ P4.Level.prototype.processSteps = function()
 			return
 		}
 
-		GO.scenes.end = new P4.EndScene('Well Done', this.scene.player.score)
+		GO.scenes.end = new P4.EndScene('Well Done', this.scene.player.score, this.scene.player.diff)
 		GO.setScene(GO.scenes.end)
 		P4.track('finished')
 		return
@@ -478,8 +478,11 @@ P4.Level.prototype.processSteps = function()
 		}
 
 		this.levelText = 'Level ' + seq.level
+		this.diffText = P4.FormatDiff(this.scene.player.diff)
 		
 		if (seq.level > 1) {
+			this.scene.player.score += 100000
+
 			P4.GameState.data['level'] = seq.level
 			P4.GameState.data['score'] = this.scene.player.score
 			P4.GameState.data['lives'] = this.scene.player.lives
