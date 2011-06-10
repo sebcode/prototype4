@@ -59,10 +59,6 @@ P4.GameScene.prototype.activate = function()
 P4.GameScene.prototype.onPlayerDied = function()
 {
 	if (this.player.lives <= 0) {
-		P4.GameState.store('level', false)
-		P4.GameState.store('score', 0)
-		P4.GameState.store('lives', 0)
-
 		GO.scenes.end = new P4.EndScene('Game Over', this.player.score)
 		GO.setScene(GO.scenes.end)
 		P4.track('gameover')
