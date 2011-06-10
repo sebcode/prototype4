@@ -1252,7 +1252,7 @@ P4.Level.prototype.sequence = [
 	,{ waitforenemiesdead: true }
 	,{ w: 20, p: 'powerupW' }
 	
-	,{ level: 20, color: '127,255,0' }
+	,{ level: 20, color: '143,10,139' }
 	,{ w: 1, p: 'powerupW' }
 	,{ w: 1, p: function() {
 		var a = new P4.EnemyBoss2()
