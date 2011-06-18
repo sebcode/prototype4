@@ -48,6 +48,7 @@ P4.EnemyShip.prototype.canGiveScore = true
 P4.EnemyShip.prototype.explodeLifetime = 1 / 5
 P4.EnemyShip.prototype.tx = false
 P4.EnemyShip.prototype.ty = false
+P4.EnemyShip.prototype.bulletSpeed = 200
 
 P4.EnemyShip.prototype.process = function()
 {
@@ -145,7 +146,7 @@ P4.EnemyShip.prototype.fire = function()
 		e.fillStyle = 'red'
 		e.x = this.x
 		e.y = this.y
-		e.v = 200
+		e.v = this.bulletSpeed
 		e.cr = 4
 		e.angle = this.angle
 		e.lethal = true

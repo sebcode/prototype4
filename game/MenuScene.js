@@ -84,10 +84,14 @@ P4.MenuScene.prototype.process = function()
 
 		this.sel = Math.floor((GO.Event.Mouse.y - this.y) / (this.txth + 20)) + 1
 		
-		if (this.sel != this.lastSel) {
+		if (this.sel && this.sel <= l && this.sel != this.lastSel) {
 			GO.Sound.play('select')
 			this.lastSel = this.sel
 		}
+	}
+
+	if (!this.sel) {
+		this.lastSel = false
 	}
 
 	if (GO.Event.Mouse.click && this.sel && this.items[this.sel - 1] && this.items[this.sel - 1].func) {

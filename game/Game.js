@@ -8,7 +8,7 @@ P4.track = function(t)
 
 P4.FormatDiff = function(diff)
 {
-	switch (diff) {
+	switch (Number(diff)) {
 		case 0: return 'easy'
 		case 1: return 'normal'
 		case 2: return 'hard'
@@ -131,8 +131,10 @@ GO.init = function()
 		/* jump to level via url hash: #d,level=10 */
 		var ret = document.location.hash.match(/level=(\d+)/)
 			,level = ret ? ret[1] : false
+			,ret = document.location.hash.match(/diff=(\d+)/)
+			,diff = ret ? ret[1] : 0
 
-		GO.scenes.game = new P4.GameScene({ level: level, score: 100, lives: 3 })
+		GO.scenes.game = new P4.GameScene({ level: level, score: 100, lives: 3, diff: diff })
 		GO.setScene(GO.scenes.game)
 	} else {
 		GO.setScene(GO.scenes.intro)

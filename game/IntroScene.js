@@ -104,9 +104,16 @@ P4.IntroScene.prototype.drawMenu = function()
 
 	var x = GO.Screen.width / 2
 		,y = GO.Screen.height / 2 + 100
+		,sel = false
 	
 	for (var i = 0; i < this.items.length; i += 1) {
-		this.drawMenuItem(i, this.items[i]);
+		if (this.drawMenuItem(i, this.items[i])) {
+			sel = true
+		}
+	}
+
+	if (!sel) {
+		this.lastMenuItem = false
 	}
 }
 
@@ -140,6 +147,8 @@ P4.IntroScene.prototype.drawMenuItem = function(i, txt, onclick)
 		GO.Sound.play('select')
 		this.lastMenuItem = txt
 	}
+
+	return sel
 }
 
 P4.IntroScene.prototype.handleMenuItemClick = function(item)
