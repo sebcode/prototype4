@@ -32,7 +32,7 @@ if (!file_put_contents('/tmp/script.js', $script)) {
 
 @unlink('/tmp/script.min.js');
 
-run('cat /tmp/script.js | java -jar /Users/seb/code/lib/yuicompressor-2.4.6.jar --type js > /tmp/script.min.js');
+run('cat /tmp/script.js | java -jar yuicompressor-2.4.6.jar --type js > /tmp/script.min.js');
 
 $buf = str_replace('$SCRIPT$', file_get_contents('/tmp/script.min.js'), $buf);
 
@@ -53,7 +53,7 @@ if ($v !== $origBuf) {
 	fail('xor verify failed');
 }
 
-if (!file_put_contents('../p4-mac/game.dat', $buf)) {
+if (!file_put_contents('game.dat', $buf)) {
 	fail('could not write game.dat');
 }
 
