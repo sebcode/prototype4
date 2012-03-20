@@ -54,7 +54,6 @@ P4.IntroScene.prototype.setMainMenu = function()
 	}
 
 	this.items.push('new game')
-	this.items.push('quit')
 }
 
 P4.IntroScene.prototype.process = function()
@@ -160,12 +159,6 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 
 		case 'new game':
 			this.clickNewGame()
-			break
-
-		case 'quit':
-			if (ext && ext.quit) {
-				ext.quit()
-			}
 			break
 
 		case 'BACK':

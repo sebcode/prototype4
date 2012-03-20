@@ -32,13 +32,13 @@ P4.GameState = { }
 
 P4.GameState.init = function()
 {
-	if (!window.ext || !window.ext.getGameState) {
+	if (!window.localStorage) {
 		return
 	}
 	
 	P4.GameState.data = { }
 
-	var state = ext.getGameState()
+	var state = window.localStorage.getItem('p4GameState')
 	if (!state) {
 		return
 	}
@@ -64,7 +64,11 @@ P4.GameState.store = function(key, val)
 
 P4.GameState.commit = function()
 {
-	ext.save('GameState', JSON.stringify(P4.GameState.data))
+	if (!window.localStorage) {
+		return
+	}
+	
+	window.localStorage.setItem('p4GameState', P4.GameState.data);
 }
 
 P4.GameState.get = function(key)
