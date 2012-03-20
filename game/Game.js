@@ -53,10 +53,6 @@ P4.GameState.init = function()
 
 P4.GameState.store = function(key, val)
 {
-	if (!window.ext || !window.ext.save) {
-		return
-	}
-	
 	P4.GameState.data[key] = val
 
 	P4.GameState.commit()

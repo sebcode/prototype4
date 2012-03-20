@@ -115,10 +115,6 @@ GO.loop = function()
 
 GO.showFPS = function()
 {
-	if (!this.config.showFPS && !(ext && ext.showFPS)) {
-		return
-	}
-
 	this.ctx.fillStyle = '#666'
 	this.ctx.font = '8px ' + this.config.fontName
 	this.ctx.textAlign = 'end'

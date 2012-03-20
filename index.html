@@ -62,28 +62,5 @@ canvas {
 <script src="game/LevelPattern.js"></script>
 <script src="game/Game.js"></script>
 
-<script>
-
-if (!window.ext) {
-	window.ext = {}
-	window.ext.play = function() {}
-	window.ext.getGameState = function() {
-		var state = {
-			highscore: {
-				easy: 100
-				,normal: 200
-				,hard: 300
-				,ultra: 400
-			}
-		}
-		state = {}
-
-		return JSON.stringify(state)
-	}
-	window.ext.save = function() {}
-}
-
-</script>
-
 <canvas id="canvas" width="640" height="480"></canvas>
 
