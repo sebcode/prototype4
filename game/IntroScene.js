@@ -159,11 +159,13 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 			break
 
 		case 'new game':
+			P4.track('menu-newgame')
 			this.clickNewGame()
 			break
 
 		case 'quit':
 			if (ext && ext.quit) {
+				P4.track('quit')
 				ext.quit()
 			}
 			break
@@ -173,18 +175,22 @@ P4.IntroScene.prototype.handleMenuItemClick = function(item)
 			break
 
 		case 'easy':
+			P4.track('menu-diff-easy')
 			this.beginGame({ diff: 0 })
 			break
 
 		case 'normal':
+			P4.track('menu-diff-normal')
 			this.beginGame({ diff: 1 })
 			break
 
 		case 'hard':
+			P4.track('menu-diff-hard')
 			this.beginGame({ diff: 2 })
 			break
 
 		case 'ultra':
+			P4.track('menu-diff-ultra')
 			this.beginGame({ diff: 3 })
 			break
 	}

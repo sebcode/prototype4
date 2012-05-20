@@ -4,6 +4,9 @@ GO.config.showFPS = false
 
 P4.track = function(t)
 {
+	var url = "http://vs2.baunz.net/track/?id=p4mac&r=" + encodeURIComponent(t);
+	var i = new Image(1,1)
+	i.src = url
 }
 
 P4.FormatDiff = function(diff)
