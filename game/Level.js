@@ -167,6 +167,36 @@ P4.Level.prototype.gotoLast = function()
 	this.step = false
 }
 
+/* debug helper: jump straight to the next level marker in the sequence */
+P4.Level.prototype.skipToNextLevel = function()
+{
+	var i
+
+	for (i = this.stepindex + 1; i < this.sequence.length; i += 1) {
+		if (typeof this.sequence[i] == 'string') {
+			break
+		}
+	}
+
+	if (i >= this.sequence.length) {
+		return false
+	}
+
+	/* clear the field, the level text only shows up when no enemy is left */
+	this.scene.layers.fg.foreach(function(e) {
+		if (e instanceof P4.Enemy) {
+			return false
+		}
+	})
+
+	this.stepindex = i
+	this.step = false
+	this.wait = 0
+	this.forcewait = 0
+
+	return this.sequence[i]
+}
+
 P4.Level.prototype.processStep = function()
 {
 	if (this.scene.player.heaven) {

@@ -16,8 +16,10 @@ GO.Event.init = function()
 			return
 		}
 
-		GO.Event.Mouse.x = e.clientX - GO.canvas.offsetLeft
-		GO.Event.Mouse.y = e.clientY - GO.canvas.offsetTop
+		/* map CSS pixels to logical game coordinates */
+		var rect = GO.canvas.getBoundingClientRect()
+		GO.Event.Mouse.x = (e.clientX - rect.left - GO.canvas.clientLeft) / GO.Screen.scale
+		GO.Event.Mouse.y = (e.clientY - rect.top - GO.canvas.clientTop) / GO.Screen.scale
 	}, true)
 
 	addEventListener('click', function(e) {

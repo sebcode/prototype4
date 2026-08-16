@@ -36,17 +36,53 @@ GO.start = function()
 
 	this.Screen.width = this.canvas.width
 	this.Screen.height = this.canvas.height
-	
+	this.Screen.scale = 1
+
 	this.ctx = this.canvas.getContext('2d')
-	this.ctx.mozImageSmoothingEnabled = false
-	
-	this.timer = window.setInterval(function() {
+
+	this.resize()
+	addEventListener('resize', function() {
+		GO.resize()
+	}, true)
+
+	requestAnimationFrame(function() {
 		GO.loop()
-	}, 1000 / 60)
+	})
 
 	if (this.init) {
 		this.init.call(this)
 	}
+}
+
+/*
+ * Fit the canvas to the browser window, keeping the aspect ratio of the
+ * logical resolution (GO.Screen.width x GO.Screen.height). The backing
+ * store is sized in device pixels for sharp rendering on high-DPI
+ * displays; a base transform maps logical coordinates onto it, so all
+ * game code keeps drawing in logical coordinates.
+ */
+GO.resize = function()
+{
+	var availWidth = window.innerWidth - 2
+	var availHeight = window.innerHeight - 2
+
+	var scale = Math.min(availWidth / this.Screen.width,
+		availHeight / this.Screen.height)
+
+	var displayWidth = Math.floor(this.Screen.width * scale)
+	var displayHeight = Math.floor(this.Screen.height * scale)
+	var dpr = window.devicePixelRatio || 1
+
+	this.canvas.style.width = displayWidth + 'px'
+	this.canvas.style.height = displayHeight + 'px'
+	this.canvas.width = Math.round(displayWidth * dpr)
+	this.canvas.height = Math.round(displayHeight * dpr)
+
+	this.Screen.scale = displayWidth / this.Screen.width
+
+	this.ctx.setTransform(this.canvas.width / this.Screen.width, 0, 0,
+		this.canvas.height / this.Screen.height, 0, 0)
+	this.ctx.mozImageSmoothingEnabled = false
 }
 
 GO.setScene = function(scene)
@@ -64,14 +100,26 @@ GO.setScene = function(scene)
 
 GO.loop = function()
 {
-	if (this.pause) {
-		return
-	}
+	requestAnimationFrame(function() {
+		GO.loop()
+	})
 
 	var date = new Date
 	this.now = date.getTime()
+
+	if (this.pause) {
+		this.oldtime = this.now
+		return
+	}
+
 	if (this.oldtime) {
 		this.delta = ((this.now - this.oldtime) / 1000) * this.speed
+
+		/* cap the delta so the game does not jump ahead after the
+		   tab was inactive (rAF stops firing in background tabs) */
+		if (this.delta > 0.1) {
+			this.delta = 0.1
+		}
 	}
 	this.oldtime = this.now
 

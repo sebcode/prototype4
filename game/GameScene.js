@@ -115,6 +115,12 @@ P4.GameScene.prototype.drawHUD = function()
 	GO.ctx.fillStyle = 'white'
 	GO.ctx.fillText('Player x ' + this.player.lives, GO.Screen.width - 10, GO.Screen.height - 10)
 
+	if (GO.godMode) {
+		GO.ctx.fillStyle = 'yellow'
+		GO.ctx.fillText('GOD mode', GO.Screen.width - 10, GO.Screen.height - 22)
+		GO.ctx.fillStyle = 'white'
+	}
+
 	GO.ctx.textAlign = 'left'
 	GO.ctx.fillText('Energy:', 100, GO.Screen.height - 10)
 

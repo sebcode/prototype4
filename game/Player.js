@@ -73,7 +73,7 @@ P4.Player.prototype.oncollision = function(e)
 		return
 	}
 
-	if (this.invincible) {
+	if (this.invincible || GO.godMode) {
 		return
 	}
 
