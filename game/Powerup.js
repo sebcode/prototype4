@@ -1,3 +1,5 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
 
 P4.Powerup = function()
 {
@@ -23,6 +25,12 @@ P4.Powerup.prototype.type = 'w'
 P4.Powerup.prototype.consume = function()
 {
 	if (this.active && this.touching) {
+		if (this.type == 'w') {
+			GO.Sound.play('powerup_canon')
+		} else {
+			GO.Sound.play('powerup_life')
+		}
+		
 		this.active = false
 		this.dead = true
 		return true

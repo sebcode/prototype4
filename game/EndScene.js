@@ -1,13 +1,36 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './GameState.js'
+import './Starfield.js'
 
-P4.EndScene = function(label1, label2)
+P4.EndScene = function(label1, score, diff)
 {
 	if (label1) {
 		this.label1 = label1
 	}
 
-	if (label2) {
-		this.label2 = label2
+	this.score = score
+	this.isNewHighScore = false
+
+	P4.GameState.data['level'] = false
+	P4.GameState.data['score'] = 0
+	P4.GameState.data['lives'] = 0
+	P4.GameState.data['diff'] = 0
+
+	var state = P4.GameState.data
+
+	if (!state.highscore) {
+		state.highscore = {}
 	}
+
+	if (!state.highscore[diff]) {
+		state.highscore[diff] = score
+	} else if (score > state.highscore[diff]) {
+		state.highscore[diff] = score
+		this.isNewHighScore = true
+	}
+	
+	P4.GameState.commit()
 
 	P4.EndScene.superproto.constructor.call(this)
 
@@ -17,28 +40,21 @@ P4.EndScene = function(label1, label2)
 	this.layers.transition = new GO.Layer
 
 	P4.Starfield.create(this.layers.starfield)
-
-	this.blinkTimer = new GO.Timer(500, function() {
-		this.blink = ! this.blink
-	}, this)
-	this.blinkTimer.pause = true
-	this.layers.handlers.push(this.blinkTimer)
 }
 
 GO.Util.extend(P4.EndScene, GO.Scene)
 
 P4.EndScene.prototype.label1 = 'Game Over'
-P4.EndScene.prototype.label2 = 'try again'
 
 P4.EndScene.prototype.activate = function()
 {
 	this.locked = true
+
+	GO.Sound.play('game_over')
 	
 	/* allow click after time period */
 	this.layers.handlers.push(new GO.Timer(1500, function() {
 		this.locked = false
-		this.blinkTimer.reset()
-		this.blinkTimer.pause = false
 		return false
 	}, this))
 }
@@ -76,7 +92,14 @@ P4.EndScene.prototype.drawSubTitle = function()
 	GO.ctx.fillStyle = '#fff'
 	GO.ctx.textBaseline = 'middle'
 	GO.ctx.textAlign = 'center'
-	GO.ctx.fillText(this.label2, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
+
+	var label = 'YOUR SCORE : ' + this.score
+
+	if (this.isNewHighScore) {
+		label = 'NEW HIGHSCORE : ' + this.score;
+	}
+
+	GO.ctx.fillText(label, GO.Screen.width / 2, GO.Screen.height / 2 + 100)
 }
 
 P4.EndScene.prototype.handleEvent = function()
@@ -85,10 +108,12 @@ P4.EndScene.prototype.handleEvent = function()
 		return
 	}
 
-	if (GO.Event.Mouse.click || GO.Event.Keyboard.code == 27) {
+	if (GO.Event.Mouse.click
+		|| GO.Event.Keyboard.code == 27
+		|| GO.Event.Keyboard.code == 13) {
 		this.locked = true
 
-		t = new GO.Transition
+		var t = new GO.Transition
 		t.v = 2
 		t.ondone = {
 			fn: function() {

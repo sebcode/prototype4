@@ -1,3 +1,4 @@
+import { GO } from './GO.js'
 
 GO.Timer = function(interval, ontick, ctx)
 {

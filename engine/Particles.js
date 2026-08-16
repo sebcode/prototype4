@@ -1,3 +1,7 @@
+import { GO } from './GO.js'
+import './Util.js'
+import './VisibleEntityGroup.js'
+import './Particle.js'
 
 GO.Particles = function() { }
 

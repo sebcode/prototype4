@@ -1,3 +1,5 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
 
 P4.Shot = function() { }
 

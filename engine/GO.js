@@ -1,15 +1,98 @@
 
-GO = function() { }
+export const GO = function() { }
 
 GO.Screen = { }
 
 GO.config = {}
 GO.config.fontName = 'sans'
 
+/* how long to wait for the webfont before starting anyway, in ms */
+GO.config.fontTimeout = 3000
+
+/*
+ * Wait for the configured webfont, then run done().
+ *
+ * A canvas draws its text once: fillText silently falls back to a system
+ * font while the webfont is still loading, and nothing redraws when it
+ * finally arrives, so the title screen would keep the wrong typeface for
+ * as long as it is on screen. The wait is capped, because a missing or
+ * slow font file must not stop the game from starting - it just looks
+ * different.
+ */
+GO.waitForFont = function(done)
+{
+	var family = this.config.fontName
+
+	if (!family || !document.fonts || !document.fonts.load) {
+		done()
+		return
+	}
+
+	var called = false
+		,timer
+		,finish = function() {
+			if (called) {
+				return
+			}
+
+			called = true
+			window.clearTimeout(timer)
+			done()
+		}
+
+	timer = window.setTimeout(finish, this.config.fontTimeout)
+
+	/* the size is irrelevant, but the shorthand needs one to parse */
+	document.fonts.load('16px ' + family).then(finish, finish)
+}
+
+/*
+ * Bring up the canvas and the audio context, preload the assets behind a
+ * progress bar, then start the game. Everything the loader waits for is
+ * optional in the sense that a failure only costs that one asset.
+ */
+GO.boot = function()
+{
+	if (!this.initCanvas()) {
+		return false
+	}
+
+	this.Sound.init()
+
+	var self = this
+		,tasks = [ function(done) { self.waitForFont(done) } ]
+			.concat(this.Sound.loadTasks())
+
+	this.Loader.run(tasks, function() {
+		self.start()
+	})
+}
+
+GO.initCanvas = function()
+{
+	this.canvas = document.getElementById('canvas')
+	if (!this.canvas || (this.canvas && !this.canvas.getContext)) {
+		return false
+	}
+
+	this.Screen.width = this.canvas.width
+	this.Screen.height = this.canvas.height
+	this.Screen.scale = 1
+
+	this.ctx = this.canvas.getContext('2d')
+
+	this.resize()
+	addEventListener('resize', function() {
+		GO.resize()
+	}, true)
+
+	return true
+}
+
 GO.start = function()
 {
 	this.Event.init()
-	
+
 	this.entityCount = 0
 	this.speed = 1
 	this.delta = 0
@@ -28,22 +111,12 @@ GO.start = function()
 	this.scenes = { }
 	this.scene = false
 	this.handlers = new GO.LinkedList
-	
-	this.canvas = document.getElementById('canvas')
-	if (!this.canvas || (this.canvas && !this.canvas.getContext)) {
+
+	/* the canvas and the audio context are already up, GO.boot needed
+	   them to draw the loading bar and to decode the samples */
+	if (!this.ctx && !this.initCanvas()) {
 		return false
 	}
-
-	this.Screen.width = this.canvas.width
-	this.Screen.height = this.canvas.height
-	this.Screen.scale = 1
-
-	this.ctx = this.canvas.getContext('2d')
-
-	this.resize()
-	addEventListener('resize', function() {
-		GO.resize()
-	}, true)
 
 	requestAnimationFrame(function() {
 		GO.loop()
@@ -140,6 +213,8 @@ GO.loop = function()
 		this.tickn = 0
 	}
 
+	this.Event.poll()
+
 	if (this.handlers.count) {
 		this.handlers.foreach(function(handler) {
 			return handler.process.call(handler)
@@ -151,8 +226,12 @@ GO.loop = function()
 	}
 
 	if (this.msg) {
+		/* the alignment has to be set explicitly, the canvas keeps
+		   whatever the scene (or showFPS) left behind */
 		this.ctx.fillStyle = 'white'
 		this.ctx.font = '12px ' + this.config.fontName
+		this.ctx.textAlign = 'left'
+		this.ctx.textBaseline = 'alphabetic'
 		this.ctx.fillText(this.msg, 20, this.Screen.height - 20)
 	}
 

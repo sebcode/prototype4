@@ -1,3 +1,7 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './Enemy.js'
+import './Shot.js'
 
 P4.EnemyShip = function(colorscheme, excolorscheme)
 {
@@ -12,15 +16,15 @@ P4.EnemyShip = function(colorscheme, excolorscheme)
 		this.excolorscheme = colorscheme
 	}
 
-	this.dust = new GO.Particles
-	this.dust.x = this.x
-	this.dust.y = this.y
-	this.dust.gravity = 200
-	this.dust.lifetime = 1 / 10
-	this.dust.v = 50
+	//this.dust = new GO.Particles
+	//this.dust.x = this.x
+	//this.dust.y = this.y
+	//this.dust.gravity = 200
+	//this.dust.lifetime = 1 / 10
+	//this.dust.v = 50
 	
 	this.tail = new GO.LinkedList
-	for (i = 0; i < 20; i += 1) {
+	for (var i = 0; i < 20; i += 1) {
 		this.tail.push({
 			x: -100
 			,y: -100
@@ -30,7 +34,7 @@ P4.EnemyShip = function(colorscheme, excolorscheme)
 	}
 	this.tailCur = this.tail.first
 
-	this.y = -30
+	this.y = -10
 }
 
 GO.Util.extend(P4.EnemyShip, P4.Enemy)
@@ -41,48 +45,27 @@ P4.EnemyShip.prototype.v = 0.5
 P4.EnemyShip.prototype.cr = 20
 P4.EnemyShip.prototype.lethal = true
 P4.EnemyShip.prototype.life = 2
+P4.EnemyShip.prototype.canFire = true
+P4.EnemyShip.prototype.canFlyAway = true
+P4.EnemyShip.prototype.canFollowPlayer = true
+P4.EnemyShip.prototype.canGiveScore = true
+P4.EnemyShip.prototype.explodeLifetime = 1 / 5
+P4.EnemyShip.prototype.tx = false
+P4.EnemyShip.prototype.ty = false
+P4.EnemyShip.prototype.bulletSpeed = 200
 
 P4.EnemyShip.prototype.process = function()
 {
-	var i
-		,cur
-
-	if (this.dust) {
-		this.dust.x = this.x
-		this.dust.y = this.y
-		this.dust.gravityangle = this.angle + Math.PI
-		this.dust.process()
-	}
+	//if (this.dust) {
+	//	this.dust.x = this.x
+	//	this.dust.y = this.y
+	//	this.dust.gravityangle = this.angle + Math.PI
+	//	this.dust.process()
+	//}
 
 	if (!this.hit) {
-		if (this.tailCur) {
-			this.tailCur.x = this.x
-			this.tailCur.y = this.y
-			this.tailCur.angle = this.angle
-			this.tailCur.alpha = 1
-			if (this.tailCur.llnext) {
-				this.tailCur = this.tailCur.llnext
-			} else {
-				this.tailCur = this.tail.first
-			}
-		}
-
-		i = 0
-		cur = this.tailCur
-		do {
-			cur.alpha -= 1 / 10
-			if (cur.alpha > 0.1) {
-				this.drawShip(cur.x, cur.y, cur.angle, cur.alpha, this.color)
-			}
-
-			if (cur.llnext) {
-				cur = cur.llnext
-			} else {
-				cur = this.tail.first
-			}
-			i += 1
-		} while (i < this.tail.count)
-
+		this.drawTail()
+	
 		this.drawShip(this.x, this.y, this.angle, 1, this.color)
 	}
 
@@ -100,17 +83,23 @@ P4.EnemyShip.prototype.process = function()
 		,px = player.x
 		,py = player.y
 	
+	if (player.heaven) {
+		this.canFlyAway = true
+	}
+	
 	if (!this.flyaway) {
-		this.tx = px
-		this.ty = py
+		if (this.canFollowPlayer) {
+			this.tx = px
+			this.ty = py
+		}
 
 		var d = Math.sqrt(Math.pow(px - this.x, 2) + Math.pow(py - this.y, 2))
 
-		if (d <= 300) {
+		if (d <= 300 && this.canFire) {
 			this.fire()
 		}
 
-		if ((d <= 150 && player.y > (GO.Screen.height * 0.5)) || player.heaven) {
+		if (this.canFlyAway && ((d <= 150 && player.y > (GO.Screen.height * 0.5)) || player.heaven)) {
 			this.flyaway = true
 			this.v = 0.5
 
@@ -126,6 +115,8 @@ P4.EnemyShip.prototype.process = function()
 	this.x += (this.tx - this.x) * (GO.delta * this.v)
 	this.y += (this.ty - this.y) * (GO.delta * this.v)
 
+	this.x += Math.sin(GO.tick) * (GO.delta * (10 * Math.random() + 20))
+
 	if (this.y - 200 > GO.Screen.height
 		|| this.x > GO.Screen.width
 		|| this.x < 0) {
@@ -133,11 +124,12 @@ P4.EnemyShip.prototype.process = function()
 		this.dead = true
 	}
 	
-	/* angle pointing to mouse position */
-
-	this.angle = (Math.PI / 2) + Math.atan((this.y - this.ty) / (this.x - this.tx))
-	if (px <= this.x) {
-		this.angle -= Math.PI
+	/* angle pointing to player's position */
+	if (!player.heaven) {
+		this.angle = (Math.PI / 2) + Math.atan((this.y - py) / (this.x - px))
+		if (px <= this.x) {
+			this.angle -= Math.PI
+		}
 	}
 
 	if (this.flyaway) {
@@ -147,23 +139,56 @@ P4.EnemyShip.prototype.process = function()
 
 P4.EnemyShip.prototype.fire = function()
 {
-	if (this.lastTick != GO.tick) {
-		/* fire shot */
-		if (GO.tick % 5 == 0) {
-			var e = new P4.Shot
-			e.fillStyle = 'red'
-			e.x = this.x
-			e.y = this.y
-			e.v = 200
-			e.cr = 4
-			e.angle = this.angle
-			e.lethal = true
-			e.collidesWith = [ P4.Player ]
-			GO.scenes.game.layers.fg.push(e)
-		}
-		
-		this.lastTick = GO.tick
+	if (this.lastTick == GO.tick) {
+		return
 	}
+	
+	this.lastTick = GO.tick
+
+	if (GO.tick % 5 == 0) {
+		var e = new P4.Shot
+		e.fillStyle = 'red'
+		e.x = this.x
+		e.y = this.y
+		e.v = this.bulletSpeed
+		e.cr = 4
+		e.angle = this.angle
+		e.lethal = true
+		e.collidesWith = [ P4.Player ]
+		GO.scenes.game.layers.fg.push(e)
+	}
+}
+
+P4.EnemyShip.prototype.drawTail = function()
+{
+	if (this.tailCur) {
+		this.tailCur.x = this.x
+		this.tailCur.y = this.y
+		this.tailCur.angle = this.angle
+		this.tailCur.alpha = 1
+		if (this.tailCur.llnext) {
+			this.tailCur = this.tailCur.llnext
+		} else {
+			this.tailCur = this.tail.first
+		}
+	}
+
+	var i = 0
+		,cur = this.tailCur
+
+	do {
+		cur.alpha -= 1 / 10
+		if (cur.alpha > 0.1) {
+			this.drawShip(cur.x, cur.y, cur.angle, cur.alpha, this.color)
+		}
+
+		if (cur.llnext) {
+			cur = cur.llnext
+		} else {
+			cur = this.tail.first
+		}
+		i += 1
+	} while (i < this.tail.count)
 }
 
 P4.EnemyShip.prototype.drawShip = function(x, y, angle, alpha, color)
@@ -198,6 +223,7 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 	s.dead = true
 
 	if (this.life <= 0) {
+		GO.Sound.play('explode1')
 		this.explode(s.x, s.y, 300)
 		this.dust = false
 		this.lethal = false
@@ -210,7 +236,9 @@ P4.EnemyShip.prototype.oncollision = function(s, d)
 			GO.scenes.game.layers.fg.push(p)
 		}
 	} else {
+		GO.Sound.play('hit')
 		this.explode(s.x, s.y, 10)
+		if (this.canGiveScore) GO.scenes.game.player.score += 100 + Math.floor(this.v * 100)
 	}
 }
 
@@ -220,7 +248,7 @@ P4.EnemyShip.prototype.explode = function(x, y, v)
 	p.colorscheme = this.excolorscheme
 	p.x = x
 	p.y = y
-	p.lifetime = 1 / 5
+	p.lifetime = this.explodeLifetime
 	p.v = v
 	p.vr = 100
 	p.explode(10)

@@ -1,4 +1,7 @@
 
 /* namespace for this game */
-var P4 = function() { }
+export const P4 = function() { }
 
+P4.track = function(t)
+{
+}

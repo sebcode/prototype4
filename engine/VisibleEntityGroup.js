@@ -1,3 +1,6 @@
+import { GO } from './GO.js'
+import './Util.js'
+import './LinkedList.js'
 
 GO.VisibleEntityGroup = function() { }
 

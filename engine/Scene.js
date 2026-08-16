@@ -1,3 +1,4 @@
+import { GO } from './GO.js'
 
 GO.Scene = function()
 {
@@ -5,6 +6,9 @@ GO.Scene = function()
 }
 
 GO.Scene.prototype.paused = false
+
+/* relative touch steering instead of tap-to-position, see GO.Event.Touch */
+GO.Scene.prototype.dragToSteer = false
 
 GO.Scene.prototype.pause = function()
 {
@@ -32,7 +36,7 @@ GO.Scene.prototype.process = function()
 		return false
 	}
 
-	for (i in this.layers) {
+	for (var i in this.layers) {
 		if (this.layers.hasOwnProperty(i)) {
 			this.layers[i].process()
 		}
@@ -75,7 +79,7 @@ GO.Scene.prototype.process = function()
 
 GO.Scene.prototype.foreachEntity = function(func, ctx, arg1, arg2, arg3)
 {
-	for (i in this.layers) {
+	for (var i in this.layers) {
 		if (!this.layers.hasOwnProperty(i)) {
 			continue
 		}

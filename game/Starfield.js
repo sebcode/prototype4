@@ -1,3 +1,5 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
 
 P4.Starfield = function(scene, conf)
 {
@@ -11,7 +13,7 @@ P4.Starfield = function(scene, conf)
 	this.distance = conf.distance
 	this.stars = new GO.LinkedList
 
-	for (i = 0; i < conf.count; i += 1) {
+	for (var i = 0; i < conf.count; i += 1) {
 		this.stars.push({
 			x: this.getRandX()
 			,y: Math.random() * GO.Screen.height

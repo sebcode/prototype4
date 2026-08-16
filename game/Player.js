@@ -1,3 +1,9 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './Shot.js'
+import './Enemy.js'
+import './Powerup.js'
+import './EnemyStar.js'
 
 P4.Player = function(scene)
 {
@@ -17,6 +23,18 @@ P4.Player = function(scene)
 	this.dust.lifetime = 1 / 10
 	this.dust.v = (1 + Math.random() * 2) * 50
 	this.push(this.dust)
+	
+	this.tail = new GO.LinkedList
+	for (var i = 0; i < 20; i += 1) {
+		this.tail.push({
+			x: -100
+			,y: -100
+			,angle: 0
+			,alpha: 1
+		})
+	}
+	this.tailCur = this.tail.first
+
 }
 
 GO.Util.extend(P4.Player, GO.VisibleEntityGroup)
@@ -26,7 +44,9 @@ P4.Player.prototype.cr = 8
 P4.Player.prototype.size = 1
 P4.Player.prototype.lives = 3
 P4.Player.prototype.weapon = 0
-P4.Player.prototype.energy = 10
+P4.Player.prototype.energy = 30
+P4.Player.prototype.score = 0
+P4.Player.prototype.diff = 0
 
 P4.Player.prototype.reset = function()
 {
@@ -60,13 +80,15 @@ P4.Player.prototype.oncollision = function(e)
 			case 'w':
 				this.weapon = 1
 				this.weaponCooldown = 10
+				this.score += 100
 				break
 
 			case 'e':
-				this.energy += 1
-				if (this.energy >= 10) {
-					this.energy = 10
+				this.energy += 10
+				if (this.energy >= P4.Player.prototype.energy) {
+					this.energy = P4.Player.prototype.energy
 				}
+				this.score += 200
 				break
 		}
 
@@ -92,6 +114,8 @@ P4.Player.prototype.oncollision = function(e)
 	}
 
 	if (this.energy <= 0) {
+		GO.Sound.play('player_explode')
+
 		this.explode(true)
 		this.heaven = true
 		this.x = -5000
@@ -108,6 +132,8 @@ P4.Player.prototype.oncollision = function(e)
 			return false
 		}, this))
 	} else {
+		GO.Sound.play('player_hit')
+
 		var damage = e.damage ? e.damage : 1
 		this.energy -= damage
 		if (this.energy < 0) {
@@ -129,6 +155,10 @@ P4.Player.prototype.process = function()
 	}
 
 	if (this.spawn > 0) {
+		if (this.spawn == 500) {
+			GO.Sound.play('hit')
+		}
+
 		GO.ctx.beginPath()
 		GO.ctx.lineWidth = 3
 		GO.ctx.fillStyle = 'rgba(255,255,255,0.1)'
@@ -180,7 +210,7 @@ P4.Player.prototype.process = function()
 		this.lastTick = GO.tick
 	}
 
-	/* fly to mouse position */
+	/* fly to pointer position (mouse, finger or gamepad cursor) */
 	if (!this.spawn && GO.Event.Mouse.x != -1 && GO.Event.Mouse.y != -1) {
 		this.x += (GO.Event.Mouse.x - this.x) * (GO.delta * 5)
 		this.y += (GO.Event.Mouse.y - this.y) * (GO.delta * 5)
@@ -212,26 +242,26 @@ P4.Player.prototype.process = function()
 		this.angle = Math.sin(n / 100)
 	}
 
-	/* tail */
-	this.push({
-		lt: 2,
-		angle: this.angle,
-		alpha: 1,
-		x: this.x,
-		y: this.y,
-		parent: this,
-		size: this.size,
-		process: function() {
-			this.lt -= GO.delta * 10
-			if (this.lt <= 0) {
-				this.dead = true
-				return false
-			}
-
-			this.alpha = this.alpha / 1.5
-			this.parent.drawShip(this.x, this.y, this.angle, this.alpha)
-		}
-	})
+//	/* tail */
+//	this.push({
+//		lt: 2,
+//		angle: this.angle,
+//		alpha: 1,
+//		x: this.x,
+//		y: this.y,
+//		parent: this,
+//		size: this.size,
+//		process: function() {
+//			this.lt -= GO.delta * 10
+//			if (this.lt <= 0) {
+//				this.dead = true
+//				return false
+//			}
+//
+//			this.alpha = this.alpha / 1.5
+//			this.parent.drawShip(this.x, this.y, this.angle, this.alpha)
+//		}
+//	})
 	
 	if (!this.spawn && this.invincible) {
 		GO.ctx.beginPath()
@@ -240,7 +270,39 @@ P4.Player.prototype.process = function()
 		GO.ctx.fill()
 	}
 	
-	this.drawShip(this.x, this.y, this.angle, 1)
+	this.drawTail(this.x, this.y)
+}
+
+P4.Player.prototype.drawTail = function(x, y)
+{
+	if (this.tailCur) {
+		this.tailCur.x = x
+		this.tailCur.y = y
+		this.tailCur.angle = this.angle
+		this.tailCur.alpha = 1
+		if (this.tailCur.llnext) {
+			this.tailCur = this.tailCur.llnext
+		} else {
+			this.tailCur = this.tail.first
+		}
+	}
+
+	var i = 0
+		,cur = this.tailCur
+
+	do {
+		cur.alpha -= 1 / 10
+		if (cur.alpha > 0.1) {
+			this.drawShip(cur.x, cur.y, cur.angle, cur.alpha, this.color)
+		}
+
+		if (cur.llnext) {
+			cur = cur.llnext
+		} else {
+			cur = this.tail.first
+		}
+		i += 1
+	} while (i < this.tail.count)
 }
 
 P4.Player.prototype.fireSingleShot = function()

@@ -1,3 +1,7 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './Starfield.js'
+import './GameScene.js'
 
 P4.MenuScene = function()
 {
@@ -16,12 +20,12 @@ P4.MenuScene = function()
 		{
 			label: 'new game',
 			func: function() {
-				GO.scenes.game = new P4.GameScene
+				GO.scenes.game = new P4.GameScene({ diff: GO.scenes.game.player.diff })
 				GO.setScene(GO.scenes.game)
 			}
 		},
 		{
-			label: 'quit',
+			label: 'quit to menu',
 			func: function() {
 				GO.setScene(GO.scenes.intro)
 			}
@@ -30,6 +34,13 @@ P4.MenuScene = function()
 }
 
 GO.Util.extend(P4.MenuScene, GO.Scene)
+
+P4.MenuScene.prototype.activate = function()
+{
+	this.lastSel = false
+
+	GO.Sound.play('menu_open')
+}
 
 P4.MenuScene.prototype.process = function()
 {
@@ -40,6 +51,7 @@ P4.MenuScene.prototype.process = function()
 	}
 
 	if (GO.Event.Keyboard.code == 27) {
+		GO.Sound.play('menu_close')
 		GO.setScene(GO.scenes.game)
 		return
 	}
@@ -75,10 +87,42 @@ P4.MenuScene.prototype.process = function()
 		&& GO.Event.Mouse.x < this.x + this.w) {
 
 		this.sel = Math.floor((GO.Event.Mouse.y - this.y) / (this.txth + 20)) + 1
+		
+		if (this.sel && this.sel <= l && this.sel != this.lastSel) {
+			GO.Sound.play('select')
+			this.lastSel = this.sel
+		}
+	}
+
+	if (!this.sel) {
+		this.lastSel = false
 	}
 
 	if (GO.Event.Mouse.click && this.sel && this.items[this.sel - 1] && this.items[this.sel - 1].func) {
+		GO.Sound.play('menu_click')
 		this.items[this.sel - 1].func.call()
+	}
+}
+
+/*
+ * Menu geometry, used by the gamepad to step through the items. The box is
+ * laid out in process(), so there is nothing to snap to before the first
+ * frame has been drawn.
+ */
+P4.MenuScene.prototype.menuItemCount = function()
+{
+	return this.items.length
+}
+
+P4.MenuScene.prototype.menuItemPos = function(i)
+{
+	if (this.y === undefined) {
+		return false
+	}
+
+	return {
+		x: GO.Screen.width / 2
+		,y: this.y + ((i + 0.5) * (this.txth + 20))
 	}
 }
 

@@ -1,3 +1,8 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './GameState.js'
+import './Starfield.js'
+import './GameScene.js'
 
 P4.IntroScene = function()
 {
@@ -25,12 +30,6 @@ P4.IntroScene = function()
 	this.layers.fg.push(p)
 	
 	this.titleSize = 0
-
-	this.blinkTimer = new GO.Timer(500, function() {
-		this.blink = ! this.blink
-	}, this)
-	this.blinkTimer.pause = true
-	this.layers.handlers.push(this.blinkTimer)
 }
 
 GO.Util.extend(P4.IntroScene, GO.Scene)
@@ -42,10 +41,25 @@ P4.IntroScene.prototype.activate = function()
 	/* allow click after time period */
 	this.layers.handlers.push(new GO.Timer(1500, function() {
 		this.locked = false
-		this.blinkTimer.reset()
-		this.blinkTimer.pause = false
 		return false
 	}, this))
+	
+	GO.Sound.play('intro')
+
+	this.setMainMenu()
+}
+
+P4.IntroScene.prototype.setMainMenu = function()
+{
+	this.items = []
+	GO.Event.Menu.reset()
+
+	var continueLevel = P4.GameState.get('level')
+	if (continueLevel) {
+		this.items.push('continue')
+	}
+
+	this.items.push('new game')
 }
 
 P4.IntroScene.prototype.process = function()
@@ -53,8 +67,8 @@ P4.IntroScene.prototype.process = function()
 	this.clear()
 
 	this.drawTitle()
-	this.drawSubTitle()
-	this.drawCredit()
+	this.drawMenu()
+	this.drawFooter()
 
 	if (!P4.IntroScene.superproto.process.call(this)) {
 		return
@@ -79,29 +93,169 @@ P4.IntroScene.prototype.drawTitle = function()
 	GO.ctx.fillStyle = '#fff'
 	GO.ctx.textBaseline = 'middle'
 	GO.ctx.textAlign = 'center'
-	GO.ctx.fillText('prototype4', GO.Screen.width / 2, GO.Screen.height / 2)
+	GO.ctx.fillText('prototype4', GO.Screen.width / 2, GO.Screen.height / 2 - 50)
 }
 
-P4.IntroScene.prototype.drawSubTitle = function()
+P4.IntroScene.prototype.itemHeight = 40
+
+/* menu geometry, used by the gamepad to step through the items */
+P4.IntroScene.prototype.menuItemCount = function()
 {
-	if (this.locked || this.blink) {
+	if (this.locked || !this.items) {
+		return 0
+	}
+
+	return this.items.length
+}
+
+P4.IntroScene.prototype.menuItemPos = function(i)
+{
+	return {
+		x: GO.Screen.width / 2
+		,y: GO.Screen.height / 2 + 25 + (i * this.itemHeight) + (this.itemHeight / 2)
+	}
+}
+
+P4.IntroScene.prototype.drawMenu = function()
+{
+	if (this.locked) {
 		return
 	}
 
 	GO.ctx.font = '20px ' + GO.config.fontName
-	GO.ctx.fillStyle = '#fff'
-	GO.ctx.textBaseline = 'middle'
+	GO.ctx.fillStyle = '#999'
+	GO.ctx.textBaseline = 'alphabetic'
 	GO.ctx.textAlign = 'center'
-	GO.ctx.fillText('insert coin', GO.Screen.width / 2, GO.Screen.height / 2 + 100)
+
+	var x = GO.Screen.width / 2
+		,y = GO.Screen.height / 2 + 100
+		,sel = false
+	
+	for (var i = 0; i < this.items.length; i += 1) {
+		if (this.drawMenuItem(i, this.items[i])) {
+			sel = true
+		}
+	}
+
+	if (!sel) {
+		this.lastMenuItem = false
+	}
 }
 
-P4.IntroScene.prototype.drawCredit = function()
+P4.IntroScene.prototype.drawMenuItem = function(i, txt, onclick)
+{
+	var h = this.itemHeight
+		,x = GO.Screen.width / 2
+		,y = GO.Screen.height / 2 + 25 + (i * h)
+		,sel = 0
+	
+	if (GO.Event.Mouse.y > y
+		&& GO.Event.Mouse.y < y + h
+		&& GO.Event.Mouse.x < x + 150
+		&& GO.Event.Mouse.x > x - 150) {
+	
+		sel = true
+	}
+
+	GO.ctx.font = '20px ' + GO.config.fontName
+	GO.ctx.textBaseline = 'top'
+	GO.ctx.textAlign = 'center'
+	GO.ctx.fillStyle = (sel ? '#aff' : '#999')
+	GO.ctx.fillText(sel ? '[ ' + txt + ' ]' : txt, x, y)
+	
+	if (sel && GO.Event.Mouse.click) {
+		GO.Sound.play('menu_click')
+		this.handleMenuItemClick(txt)
+	}
+	
+	if (sel && this.lastMenuItem != txt) {
+		GO.Sound.play('select')
+		this.lastMenuItem = txt
+	}
+
+	return sel
+}
+
+P4.IntroScene.prototype.handleMenuItemClick = function(item)
+{
+	switch (item) {
+		case 'continue':
+			this.beginGame(P4.GameState.data)
+			break
+
+		case 'new game':
+			P4.track('menu-newgame')
+			this.clickNewGame()
+			break
+
+		case 'BACK':
+			this.setMainMenu()
+			break
+
+		case 'easy':
+			P4.track('menu-diff-easy')
+			this.beginGame({ diff: 0 })
+			break
+
+		case 'normal':
+			P4.track('menu-diff-normal')
+			this.beginGame({ diff: 1 })
+			break
+
+		case 'hard':
+			P4.track('menu-diff-hard')
+			this.beginGame({ diff: 2 })
+			break
+
+		case 'ultra':
+			P4.track('menu-diff-ultra')
+			this.beginGame({ diff: 3 })
+			break
+	}
+}
+
+P4.IntroScene.prototype.clickNewGame = function()
+{
+	this.items = []
+	GO.Event.Menu.reset()
+	this.items.push('easy')
+	this.items.push('normal')
+	this.items.push('hard')
+	this.items.push('ultra')
+	this.items.push('BACK')
+}
+
+P4.IntroScene.prototype.drawFooter = function()
 {
 	GO.ctx.font = '8px ' + GO.config.fontName
 	GO.ctx.fillStyle = '#666'
 	GO.ctx.textBaseline = 'bottom'
 	GO.ctx.textAlign = 'right'
 	GO.ctx.fillText('A Game By Sebastian Volland', GO.Screen.width - 5, GO.Screen.height - 5)
+
+	var diff = P4.DiffFromText(this.lastMenuItem)
+
+	if (P4.GameState.data.highscore
+		&& diff !== false
+		&& P4.GameState.data.highscore[diff]) {
+
+		GO.ctx.textBaseline = 'bottom'
+		GO.ctx.textAlign = 'left'
+		GO.ctx.fillText('HIGHSCORE: ' + P4.GameState.data.highscore[diff], 5, GO.Screen.height - 5)
+	}
+}
+
+P4.IntroScene.prototype.beginGame = function(gameState)
+{
+	var t = new GO.Transition
+	t.v = 2
+	t.ondone = {
+		fn: function() {
+			GO.scenes.game = new P4.GameScene(gameState)
+			GO.setScene(GO.scenes.game)
+		}, ctx: this
+	}
+	this.layers.transition.push(t)
 }
 
 P4.IntroScene.prototype.handleEvent = function()
@@ -112,18 +266,20 @@ P4.IntroScene.prototype.handleEvent = function()
 		return
 	}
 
-	if (GO.Event.Mouse.click || GO.Event.Keyboard.chrLower == 'a') {
-		this.locked = true
-
-		t = new GO.Transition
-		t.v = 2
-		t.ondone = {
-			fn: function() {
-				GO.scenes.game = new P4.GameScene
-				GO.setScene(GO.scenes.game)
-			}, ctx: this
+	/* escape backs out of the difficulty submenu */
+	if (GO.Event.Keyboard.code == 27) {
+		if (this.items && this.items.indexOf('BACK') > -1) {
+			GO.Sound.play('menu_close')
+			this.setMainMenu()
 		}
-		this.layers.transition.push(t)
+
+		return
+	}
+
+	/* clicks are handled by the menu items, 'a' is a quick start shortcut */
+	if (GO.Event.Keyboard.chrLower == 'a') {
+		this.locked = true
+		this.beginGame()
 	}
 }
 

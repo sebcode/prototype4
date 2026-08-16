@@ -1,18 +1,30 @@
+import { GO } from '../engine/engine.js'
+import { P4 } from './P4.js'
+import './GameState.js'
+import { soundUrls } from './sounds.js'
+import './IntroScene.js'
+import './MenuScene.js'
+import './GameScene.js'
+
+GO.Sound.setUrls(soundUrls)
 
 GO.config.fontName = 'atari'
-GO.config.showFPS = true
+GO.config.showFPS = false
 
-P4.track = function(t)
-{
-}
+/* handy when poking at the game from the browser console in debug mode */
+window.GO = GO
+window.P4 = P4
 
 GO.init = function()
 {
-	this.debug = document.location.hash == '#d' || document.location.hash == '#debug'
+	P4.GameState.init()
+
+	this.debug = document.location.hash.indexOf('#d') > -1
 
 	if (this.debug) {
-		//this.godMode = true
+		this.godMode = document.location.hash.indexOf('godmode') > -1
 		//this.wireFrame = true
+		this.config.showFPS = true
 	}
 
 	GO.handlers.push({
@@ -64,6 +76,12 @@ GO.init = function()
 						}
 					}
 				break
+
+				case '=':
+					if (GO.debug) {
+						GO.pause = true
+					}
+				break
 			}
 		}
 	})
@@ -72,7 +90,13 @@ GO.init = function()
 	GO.scenes.menu = new P4.MenuScene
 	
 	if (this.debug) {
-		GO.scenes.game = new P4.GameScene
+		/* jump to level via url hash: #d,level=10 */
+		var ret = document.location.hash.match(/level=(\d+)/)
+			,level = ret ? ret[1] : false
+			,ret = document.location.hash.match(/diff=(\d+)/)
+			,diff = ret ? ret[1] : 0
+
+		GO.scenes.game = new P4.GameScene({ level: level, score: 100, lives: 3, diff: diff })
 		GO.setScene(GO.scenes.game)
 	} else {
 		GO.setScene(GO.scenes.intro)
@@ -80,6 +104,6 @@ GO.init = function()
 }
 
 addEventListener('load', function() {
-	GO.start()
+	GO.boot()
 }, true)
 

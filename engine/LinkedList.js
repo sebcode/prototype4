@@ -1,3 +1,4 @@
+import { GO } from './GO.js'
 
 GO.LinkedList = function() { }
 
@@ -74,7 +75,7 @@ GO.LinkedList.prototype.del = function(item)
 
 	this.count--
 	GO.entityCount--
-	delete item
+
 }
 
 GO.LinkedList.prototype.get = function(i)

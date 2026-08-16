@@ -1,3 +1,4 @@
+import { GO } from './GO.js'
 
 GO.Transition = function() { }
 
